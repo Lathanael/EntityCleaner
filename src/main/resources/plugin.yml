@@ -1,0 +1,7 @@
+name: EntityCleaner
+main: de.Lathanael.EC.Main.EntityCleaner
+version: ${project.version} (BUILD ${git.build.time})
+author: Lathanael
+depend: [AdminCmd]
+description: >
+             An AdminCmd Add-On to get rid of floating entities like Carts to save memory every x minutes.
