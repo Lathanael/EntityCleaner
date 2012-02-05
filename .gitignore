@@ -14,6 +14,7 @@ local.properties
 .settings/
 .loadpath
 .settings/org.eclipse.jdt.core.prefs
+true
 
 # CDT-specific
 .cproject
