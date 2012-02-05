@@ -5,3 +5,9 @@ author: Lathanael
 depend: [AdminCmd]
 description: >
              An AdminCmd Add-On to get rid of floating entities like Carts to save memory every x minutes.
+
+commands:
+    ec_purge:
+        description: Control the behaviour of the scheduled cleaners.
+        aliases: [purge]
+        usage: /<command> <-flags> [time|on/off]
