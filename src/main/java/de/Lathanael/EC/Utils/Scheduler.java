@@ -21,14 +21,13 @@ package de.Lathanael.EC.Utils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Server;
 import org.bukkit.World;
 
 import de.Lathanael.EC.Main.EntityCleaner;
-
-import be.Balor.Tools.Debug.ACLogger;
-import be.Balor.bukkit.AdminCmd.ACPluginManager;
+import de.Lathanael.EC.Tasks.CartTask;
 
 /**
  * @author Lathanael (aka Philippe Leipold)
@@ -36,34 +35,70 @@ import be.Balor.bukkit.AdminCmd.ACPluginManager;
  */
 public class Scheduler {
 
-	public HashMap<String, Integer> taskIDs = new HashMap<String, Integer>();
+	public static HashMap<String, Integer> taskIDs = new HashMap<String, Integer>();
+	public static HashMap<String, TaskContainer> tasks = new HashMap<String, TaskContainer>();
 	public Server server;
 	public List<World> worlds = new ArrayList<World>();
+	private EntityCleaner instance;
 
-	public Scheduler(Server server) {
+	public Scheduler(Server server, EntityCleaner instance) {
 		this.server = server;
+		this.instance = instance;
 		for (String world : ECConfig.WORLDS.getStringList()) {
 			if (EntityCleaner.debug)
 				Tools.debugMsg("Adding world: " + server.getWorld(world).getName());
 			worlds.add(server.getWorld(world));
 		}
+		initTaskList();
+
 	}
 
 	public void startTasks() {
-		startTask((Runnable) new CartTask(worlds), "CartTask");
+		for (Map.Entry<String, TaskContainer> map : tasks.entrySet()) {
+			TaskContainer container = map.getValue();
+			if (container.isEnabled())
+				startTask(container.getTask(), map.getKey(), container.getInitTIme(), container.getTime());
+		}
 	}
 
-	public void startTask(Runnable task, String className) {
-		ACLogger.info("Starting Task!");
-		taskIDs.put(className, server.getScheduler().scheduleSyncRepeatingTask(
-				ACPluginManager.getPluginInstance("EntityCleaner" ), task, 0L, 600L));
+	public void startTask(Runnable task, String taskName, long initTime, long time) {
+		taskIDs.put(taskName, server.getScheduler().scheduleSyncRepeatingTask(
+				instance, task, initTime, time));
+	}
+
+	public void startTask(String task) {
+		TaskContainer container = tasks.get(task);
+		taskIDs.put(task, server.getScheduler().scheduleSyncRepeatingTask(
+				instance, container.getTask(), container.getInitTIme(), container.getTime()));
 	}
 
 	public void stopTasks() {
+		for (Map.Entry<String, Integer> entries : taskIDs.entrySet())
+			stopTask(entries.getKey(), entries.getValue());
+	}
 
+	public void stopTask(String taskName, int id) {
+		server.getScheduler().cancelTask(id);
+		taskIDs.remove(taskName);
 	}
 
 	public void stopTask(String className) {
+		int id = taskIDs.get(className);
+		server.getScheduler().cancelTask(id);
 		taskIDs.remove(className);
+	}
+
+	public void restartTask(String task) {
+		int id = taskIDs.get(task);
+		server.getScheduler().cancelTask(id);
+		taskIDs.remove(task);
+	}
+
+	//---------------------------------private functons-----------------------------------------
+
+	// TODO: Add all tasks
+	private void initTaskList() {
+		tasks.put("cart", new TaskContainer((Runnable) new CartTask(worlds), ECConfig.C_INIT_TIME.getLong(0L),
+					ECConfig.C_TIME.getLong(600L), ECConfig.C_ENABLE.getBoolean()));
 	}
 }

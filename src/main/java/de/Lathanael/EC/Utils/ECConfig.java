@@ -33,6 +33,8 @@ import org.bukkit.plugin.PluginDescriptionFile;
  * Code-Parts taken from AdminCmd ConfigEnum
  */
 public enum ECConfig {
+
+	// TODO: Add all entites
 	WORLDS("Worlds", Collections.list(new Enumeration<String>() {
 		private int count = 0;
 		private final String[] val = new String[] { "world", "world_nether", "world_the_end" };
@@ -139,6 +141,10 @@ public enum ECConfig {
 
 	public long getLong() {
 		return config.getLong(confVal);
+	}
+
+	public long getLong(Long defVal) {
+		return config.getLong(confVal, defVal);
 	}
 
 	public List<String> getStringList() {

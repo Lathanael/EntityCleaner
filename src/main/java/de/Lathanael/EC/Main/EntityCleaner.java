@@ -43,7 +43,7 @@ import de.Lathanael.EC.Utils.Scheduler;
 public class EntityCleaner extends AbstractAdminCmdPlugin{
 
 	public static boolean debug;
-	private Scheduler scheduler;
+	public static Scheduler scheduler;
 
 	@Override
 	public void onDisable() {
@@ -75,7 +75,7 @@ public class EntityCleaner extends AbstractAdminCmdPlugin{
 			metrics.beginMeasuringPlugin(this);
 		} catch (IOException e) {
 		}
-		scheduler = new Scheduler(getServer());
+		scheduler = new Scheduler(getServer(), this);
 		scheduler.startTasks();
 	}
 

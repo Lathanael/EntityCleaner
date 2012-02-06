@@ -20,6 +20,9 @@ package de.Lathanael.EC.Commands;
 
 import org.bukkit.command.CommandSender;
 
+import de.Lathanael.EC.Main.EntityCleaner;
+import de.Lathanael.EC.Utils.Scheduler;
+
 import be.Balor.Manager.Commands.CommandArgs;
 import be.Balor.Manager.Commands.CoreCommand;
 
@@ -35,13 +38,25 @@ public class Purge extends CoreCommand {
 
 	@Override
 	public void execute(CommandSender sender, CommandArgs args) {
-		// TODO Auto-generated method stub
+		if (args.hasFlag('s')) {
+			if (Scheduler.taskIDs.containsKey(args.getString(0).toLowerCase()))
+				EntityCleaner.scheduler.stopTask(args.getString(0).toLowerCase());
+			else
+				EntityCleaner.scheduler.startTask(args.getString(0).toLowerCase());
+		} else if (args.hasFlag('t')) {
 
+		} else if (args.hasFlag('i')) {
+
+		} else if (args.hasFlag('a')) {
+
+		} else if (args.hasFlag('r')) {
+
+		}
 	}
 
 	@Override
 	public boolean argsCheck(String... args) {
-		return args != null && args.length >= 1;
+		return args != null && args.length >= 2;
 	}
 
 	/* (non-Javadoc)
