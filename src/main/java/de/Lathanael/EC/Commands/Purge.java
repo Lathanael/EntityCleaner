@@ -51,6 +51,8 @@ public class Purge extends CoreCommand {
 
 		} else if (args.hasFlag('r')) {
 
+		} else if (args.hasFlag('p')) {
+
 		}
 	}
 
