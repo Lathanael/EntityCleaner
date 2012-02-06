@@ -25,7 +25,7 @@ import org.bukkit.entity.Boat;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Minecart;
 
-import de.Lathanael.EC.Main.EntityCleaner;
+import de.Lathanael.EC.Utils.ECConfig;
 import de.Lathanael.EC.Utils.Tools;
 
 /**
@@ -50,15 +50,18 @@ public class VehicleTask implements Runnable {
 			 for (Entity e : entites) {
 				 if (e instanceof Boat) {
 					 Boat boat = (Boat) e;
-					 if (!Tools.isBoatInWater(boat))
+					 if (ECConfig.VEH_PROTECTED.getBoolean() && !Tools.isBoatInWater(boat))
+						 boat.remove();
+					 else if (!ECConfig.VEH_PROTECTED.getBoolean())
 						 boat.remove();
 				 } else if (e instanceof Minecart) {
 					Minecart cart = (Minecart) e;
 					if (Tools.isDerailed(cart)) {
-						if (EntityCleaner.debug)
-							Tools.debugMsg("Removing minecart");
+						if (ECConfig.VEH_PROTECTED.getBoolean() && Tools.isDerailed(cart)) {
 							cart.remove();
-						}
+						} else if (!ECConfig.VEH_PROTECTED.getBoolean())
+							cart.remove();
+					}
 				 }
 			 }
 		}

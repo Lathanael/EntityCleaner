@@ -34,7 +34,6 @@ import org.bukkit.plugin.PluginDescriptionFile;
  */
 public enum ECConfig {
 
-	// TODO: Add all entites
 	WORLDS("Worlds", Collections.list(new Enumeration<String>() {
 		private int count = 0;
 		private final String[] val = new String[] { "world", "world_nether", "world_the_end" };
@@ -50,20 +49,6 @@ public enum ECConfig {
 		}
 	}), "Worlds in which the Cleaners should work."),
 	DEBUG("debugMsg", true, "When set to true a lot of things will get logged!"),
-	ITEMS("Items", Collections.list(new Enumeration<String>() {
-		private int count = 0;
-		private final String[] val = new String[] { "Minecart", "Boat"};
-
-		@Override
-		public boolean hasMoreElements() {
-			return count < val.length;
-		}
-
-		@Override
-		public String nextElement() {
-			return val[count++];
-		}
-	}), "Items which the Cleaners should remove when tehy are floating around, if you put all in the list, all floating items are removed."),
 	ALL_ENABLE("All.enable", false,
 			"When set to true all entities listed below will be cleared every xx minutes."),
 	ALL_INIT_TIME("All.inittime", 5,
@@ -103,7 +88,47 @@ public enum ECConfig {
 	AN_INIT_TIME("Animals.inittime", 5,
 			"Time in minutes before the first deletion occurs."),
 	AN_TIME("Animals.time", 5,
-			"Time in minutes to wait between deleteing animals.");
+			"Time in minutes to wait between deleteing animals."),
+	FI_ENABLE("FloatingItems.enable", false,
+			"When set to true floating Items specified in the itmes List will be cleared every xx minutes."),
+	FI_INIT_TIME("FloatingItems.inittime", 5,
+			"Time in minutes before the first deletion occurs."),
+	FI_TIME("FloatingItems.time", 5,
+			"Time in minutes to wait between deleteing items."),
+	ITEMS("FloatingItems.List", Collections.list(new Enumeration<String>() {
+		private int count = 0;
+		private final String[] val = new String[] { "Minecart", "Boat"};
+
+		@Override
+		public boolean hasMoreElements() {
+			return count < val.length;
+		}
+
+		@Override
+		public String nextElement() {
+			return val[count++];
+		}
+	}), "Items which the Cleaners should remove when they are floating around, if you put all in the list, all floating items are removed."),
+	M_ENABLE("Monsters.enable", false,
+			"When set to true monsters will be removed every xx minutes."),
+	M_INIT_TIME("Monster.inittime", 5,
+			"Time in minutes before the first deletion occurs."),
+	M_TIME("Monsters.time", 5,
+			"Time in minutes to wait between removing monsters."),
+	VEH_ENABLE("Vehicle.enable", false,
+			"When set to true vehicles(carts and boats) will be cleared every xx minutes."),
+	VEH_INIT_TIME("Vehicle.inittime", 5,
+			"Time in minutes before the first deletion occurs."),
+	VEH_TIME("Vehicle.time", 5,
+			"Time in minutes to wait between removing vehicles."),
+	VEH_PROTECTED("Vehicle.protected", true,
+			"If set to true only derailed carts and boats outside of water will be removed."),
+	VIL_ENABLE("Villager.enable", false,
+			"When set to true villagers will be removed every xx minutes."),
+	VIL_INIT_TIME("Villager.inittime", 5,
+			"Time in minutes before the first deletion occurs."),
+	VIL_TIME("Villager.time", 5,
+			"Time in minutes to wait between removing villagers.");
 
 	private final String confVal;
 	private final Object defaultVal;
