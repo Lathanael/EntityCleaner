@@ -24,7 +24,6 @@ import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Minecart;
 
-import de.Lathanael.EC.Main.EntityCleaner;
 import de.Lathanael.EC.Utils.ECConfig;
 import de.Lathanael.EC.Utils.Tools;
 
@@ -51,8 +50,6 @@ public class CartTask implements Runnable {
 				 if (e instanceof Minecart) {
 					Minecart cart = (Minecart) e;
 					if (ECConfig.C_DERAILED.getBoolean() && Tools.isDerailed(cart)) {
-						if (EntityCleaner.debug)
-							Tools.debugMsg("Removing minecart");
 						cart.remove();
 					} else if (!ECConfig.C_DERAILED.getBoolean())
 						cart.remove();
