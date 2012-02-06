@@ -16,24 +16,22 @@
  *
  **************************************************************************/
 
-package de.Lathanael.EC.Utils;
+package de.Lathanael.EC.Tasks;
 
 import java.util.List;
 
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Minecart;
-
-import de.Lathanael.EC.Main.EntityCleaner;
+import org.bukkit.entity.Villager;
 
 /**
  * @author Lathanael (aka Philippe Leipold)
  *
  */
-public class CartTask implements Runnable {
+public class VillagerTask implements Runnable {
 
 	private List<World> worlds;
-	public CartTask(List<World> worlds) {
+	public VillagerTask(List<World> worlds) {
 		this.worlds = worlds;
 	}
 
@@ -46,15 +44,11 @@ public class CartTask implements Runnable {
 		for (World world : worlds) {
 			 entites = world.getEntities();
 			 for (Entity e : entites) {
-				 if (e instanceof Minecart) {
-					Minecart cart = (Minecart) e;
-					if (Tools.isDerailed(cart)) {
-						if (EntityCleaner.debug)
-							Tools.debugMsg("Removing minecart");
-						cart.remove();
-					}
+				 if (e instanceof Villager) {
+					 e.remove();
 				 }
 			 }
 		}
 	}
+
 }

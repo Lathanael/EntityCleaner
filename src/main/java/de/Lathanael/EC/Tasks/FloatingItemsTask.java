@@ -16,24 +16,25 @@
  *
  **************************************************************************/
 
-package de.Lathanael.EC.Utils;
+package de.Lathanael.EC.Tasks;
 
 import java.util.List;
 
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.ExperienceOrb;
+import org.bukkit.entity.Monster;
 
 /**
  * @author Lathanael (aka Philippe Leipold)
  *
  */
-public class OrbTask implements Runnable {
+public class FloatingItemsTask implements Runnable {
 
 	private List<World> worlds;
-	public OrbTask(List<World> worlds) {
+	public FloatingItemsTask(List<World> worlds) {
 		this.worlds = worlds;
 	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Runnable#run()
 	 */
@@ -43,11 +44,12 @@ public class OrbTask implements Runnable {
 		for (World world : worlds) {
 			 entites = world.getEntities();
 			 for (Entity e : entites) {
-				 if (e instanceof ExperienceOrb) {
-					 e.remove();
-				 }
+				 // TODO: correct entities from the Config list
+				 if (e instanceof Monster) {
+				 e.remove();
 			 }
-		}
+		 }
+	}
 	}
 
 }

@@ -16,7 +16,7 @@
  *
  **************************************************************************/
 
-package de.Lathanael.EC.Utils;
+package de.Lathanael.EC.Tasks;
 
 import java.util.List;
 

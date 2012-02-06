@@ -16,22 +16,22 @@
  *
  **************************************************************************/
 
-package de.Lathanael.EC.Utils;
+package de.Lathanael.EC.Tasks;
 
 import java.util.List;
 
 import org.bukkit.World;
-import org.bukkit.entity.Boat;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.ExperienceOrb;
 
 /**
  * @author Lathanael (aka Philippe Leipold)
  *
  */
-public class BoatTask implements Runnable {
+public class OrbTask implements Runnable {
 
 	private List<World> worlds;
-	public BoatTask(List<World> worlds) {
+	public OrbTask(List<World> worlds) {
 		this.worlds = worlds;
 	}
 	/* (non-Javadoc)
@@ -43,14 +43,11 @@ public class BoatTask implements Runnable {
 		for (World world : worlds) {
 			 entites = world.getEntities();
 			 for (Entity e : entites) {
-				 if (e instanceof Boat) {
-					 Boat boat = (Boat) e;
-					 if (!Tools.isBoatInWater(boat))
-						 boat.remove();
+				 if (e instanceof ExperienceOrb) {
+					 e.remove();
 				 }
 			 }
 		}
-
 	}
 
 }

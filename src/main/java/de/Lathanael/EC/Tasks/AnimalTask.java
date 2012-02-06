@@ -16,25 +16,22 @@
  *
  **************************************************************************/
 
-package de.Lathanael.EC.Utils;
+package de.Lathanael.EC.Tasks;
 
 import java.util.List;
 
 import org.bukkit.World;
-import org.bukkit.entity.Boat;
+import org.bukkit.entity.Animals;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Minecart;
-
-import de.Lathanael.EC.Main.EntityCleaner;
 
 /**
  * @author Lathanael (aka Philippe Leipold)
  *
  */
-public class VehicleTask implements Runnable {
+public class AnimalTask implements Runnable {
 
 	private List<World> worlds;
-	public VehicleTask(List<World> worlds) {
+	public AnimalTask(List<World> worlds) {
 		this.worlds = worlds;
 	}
 
@@ -47,20 +44,10 @@ public class VehicleTask implements Runnable {
 		for (World world : worlds) {
 			 entites = world.getEntities();
 			 for (Entity e : entites) {
-				 if (e instanceof Boat) {
-					 Boat boat = (Boat) e;
-					 if (!Tools.isBoatInWater(boat))
-						 boat.remove();
-				 } else if (e instanceof Minecart) {
-					Minecart cart = (Minecart) e;
-					if (Tools.isDerailed(cart)) {
-						if (EntityCleaner.debug)
-							Tools.debugMsg("Removing minecart");
-							cart.remove();
-						}
+				 if (e instanceof Animals) {
+					 e.remove();
 				 }
 			 }
 		}
 	}
-
 }

@@ -16,25 +16,27 @@
  *
  **************************************************************************/
 
-package de.Lathanael.EC.Utils;
+package de.Lathanael.EC.Tasks;
 
 import java.util.List;
 
 import org.bukkit.World;
+import org.bukkit.entity.Boat;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Villager;
+
+import de.Lathanael.EC.Utils.ECConfig;
+import de.Lathanael.EC.Utils.Tools;
 
 /**
  * @author Lathanael (aka Philippe Leipold)
  *
  */
-public class VillagerTask implements Runnable {
+public class BoatTask implements Runnable {
 
 	private List<World> worlds;
-	public VillagerTask(List<World> worlds) {
+	public BoatTask(List<World> worlds) {
 		this.worlds = worlds;
 	}
-
 	/* (non-Javadoc)
 	 * @see java.lang.Runnable#run()
 	 */
@@ -44,11 +46,16 @@ public class VillagerTask implements Runnable {
 		for (World world : worlds) {
 			 entites = world.getEntities();
 			 for (Entity e : entites) {
-				 if (e instanceof Villager) {
-					 e.remove();
+				 if (e instanceof Boat) {
+					 Boat boat = (Boat) e;
+					 if (ECConfig.B_WATER.getBoolean() && !Tools.isBoatInWater(boat))
+						 boat.remove();
+					 else if (!ECConfig.B_WATER.getBoolean())
+						 boat.remove();
 				 }
 			 }
 		}
+
 	}
 
 }

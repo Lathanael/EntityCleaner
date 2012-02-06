@@ -16,22 +16,21 @@
  *
  **************************************************************************/
 
-package de.Lathanael.EC.Utils;
+package de.Lathanael.EC.Tasks;
 
 import java.util.List;
 
 import org.bukkit.World;
-import org.bukkit.entity.Animals;
 import org.bukkit.entity.Entity;
 
 /**
  * @author Lathanael (aka Philippe Leipold)
  *
  */
-public class AnimalTask implements Runnable {
+public class CompleteTask implements Runnable {
 
 	private List<World> worlds;
-	public AnimalTask(List<World> worlds) {
+	public CompleteTask(List<World> worlds) {
 		this.worlds = worlds;
 	}
 
@@ -44,9 +43,7 @@ public class AnimalTask implements Runnable {
 		for (World world : worlds) {
 			 entites = world.getEntities();
 			 for (Entity e : entites) {
-				 if (e instanceof Animals) {
-					 e.remove();
-				 }
+				 e.remove();
 			 }
 		}
 	}
