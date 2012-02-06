@@ -20,9 +20,11 @@ package de.Lathanael.EC.Tasks;
 
 import java.util.List;
 
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Monster;
+import org.bukkit.entity.Item;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * @author Lathanael (aka Philippe Leipold)
@@ -31,8 +33,11 @@ import org.bukkit.entity.Monster;
 public class FloatingItemsTask implements Runnable {
 
 	private List<World> worlds;
-	public FloatingItemsTask(List<World> worlds) {
+	private List<Material> items;
+
+	public FloatingItemsTask(List<World> worlds, List<Material> items) {
 		this.worlds = worlds;
+		this.items =items;
 	}
 
 	/* (non-Javadoc)
@@ -45,11 +50,16 @@ public class FloatingItemsTask implements Runnable {
 			 entites = world.getEntities();
 			 for (Entity e : entites) {
 				 // TODO: correct entities from the Config list
-				 if (e instanceof Monster) {
-				 e.remove();
+				 if (e instanceof ItemStack) {
+					 ItemStack stack = (ItemStack) e;
+					 if (items.contains(stack.getType()))
+						 e.remove();
+				 } else if (e instanceof Item) {
+					 Item stack = (Item) e;
+					 if (items.contains(stack.getItemStack().getType()))
+						 e.remove();
+				 }
 			 }
-		 }
+		}
 	}
-	}
-
 }
