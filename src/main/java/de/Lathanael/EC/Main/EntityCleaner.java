@@ -29,6 +29,7 @@ import be.Balor.Manager.Permissions.PermParent;
 import be.Balor.Tools.Metrics;
 import be.Balor.Tools.Utils;
 import be.Balor.Tools.Configuration.File.ExtendedConfiguration;
+import be.Balor.bukkit.AdminCmd.ACPluginManager;
 import be.Balor.bukkit.AdminCmd.AbstractAdminCmdPlugin;
 
 import de.Lathanael.EC.Commands.Purge;
@@ -44,6 +45,7 @@ public class EntityCleaner extends AbstractAdminCmdPlugin{
 
 	public static boolean debug;
 	public static Scheduler scheduler;
+	public static ExtendedConfiguration conf;
 
 	@Override
 	public void onDisable() {
@@ -56,7 +58,7 @@ public class EntityCleaner extends AbstractAdminCmdPlugin{
 		final PluginDescriptionFile pdfFile = this.getDescription();
 		getLogger().info("Plugin Enabled. (version " + pdfFile.getVersion() + ")");
 		ECConfig.setPluginInfos(pdfFile);
-		ExtendedConfiguration conf = ExtendedConfiguration.loadConfiguration(new File(
+		conf = ExtendedConfiguration.loadConfiguration(new File(
 		getDataFolder(), "config.yml"));
 		conf.addDefaults(ECConfig.getDefaultvalues());
 		conf.options().header(ECConfig.getHeader());
@@ -95,6 +97,15 @@ public class EntityCleaner extends AbstractAdminCmdPlugin{
 	@Override
 	protected void setDefaultLocale() {
 		Utils.addLocale("","");
+	}
+
+	public static void reloadConf() {
+		try {
+			conf.save();
+		} catch (IOException e1) {
+			ACPluginManager.getPluginInstance("EntityCleaner").getLogger().log(Level.SEVERE, "Configuration saving problem", e1);
+		}
+		ECConfig.setConfig(conf);
 	}
 
 }

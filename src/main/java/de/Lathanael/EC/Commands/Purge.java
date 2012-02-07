@@ -54,6 +54,7 @@ public class Purge extends CoreCommand {
 			ECConfig.getConfig().set(args.getString(0) + ".time", time);
 			TaskContainer container = Scheduler.tasks.get(args.getString(0));
 			container.setTime(time);
+			EntityCleaner.reloadConf();
 			EntityCleaner.scheduler.reInitTaskList();
 		} else if (args.hasFlag('i')) {
 			// Set the initial waiting time of the task
@@ -61,30 +62,33 @@ public class Purge extends CoreCommand {
 			ECConfig.getConfig().set(args.getString(0) + ".inittime", time);
 			TaskContainer container = Scheduler.tasks.get(args.getString(0));
 			container.setInitTime(time);
+			EntityCleaner.reloadConf();
 			EntityCleaner.scheduler.reInitTaskList();
 		} else if (args.hasFlag('o')) {
 			// Turn a task on/off
-			boolean on = Boolean.getBoolean(args.getString(1));
-			ECConfig.getConfig().set(args.getString(0) + ".enabled", on);
+			boolean on = Boolean.parseBoolean(args.getString(1));
+			ECConfig.getConfig().set(args.getString(0) + ".enable", on);
 			TaskContainer container = Scheduler.tasks.get(args.getString(0));
 			container.setEnabled(on);
+			EntityCleaner.reloadConf();
 			EntityCleaner.scheduler.reInitTaskList();
 		} else if (args.hasFlag('r')) {
 			// Restart a task
 			EntityCleaner.scheduler.restartTask(args.getString(0));
 		} else if (args.hasFlag('a')) {
-			// Set all values of a task
+			// Set all values of a task (excluding the check value)
 			long time = (long) (args.getDouble(1)*20*60);
 			long initTime = (long) (args.getDouble(2)*20*60);
-			boolean on = Boolean.getBoolean(args.getString(3));
+			boolean on = Boolean.parseBoolean(args.getString(3));
 			String task = args.getString(0);
-			ECConfig.getConfig().set(task + ".enabled", on);
+			ECConfig.getConfig().set(task + ".enable", on);
 			ECConfig.getConfig().set(task + ".time", time);
 			ECConfig.getConfig().set(task + ".inittime", initTime);
 			TaskContainer container = Scheduler.tasks.get(args.getString(0));
 			container.setEnabled(on);
 			container.setTime(time);
 			container.setInitTime(initTime);
+			EntityCleaner.reloadConf();
 			EntityCleaner.scheduler.reInitTaskList();
 		} else if (args.hasFlag('c')) {
 			// Check values of a task.
@@ -99,6 +103,17 @@ public class Purge extends CoreCommand {
 				sender.sendMessage("Enabled: " + container.isEnabled());
 				sender.sendMessage("Initial Start Time: " + container.getInitTIme());
 				sender.sendMessage("Waiting Time: " + container.getTime());
+			}
+		} else if (args.hasFlag('p')) {
+			String task = args.getString(0);
+			if (task.equalsIgnoreCase("cart") || task.equalsIgnoreCase("boat") || task.equalsIgnoreCase("vehicle")
+					|| task.equalsIgnoreCase("all")) {
+				boolean on = Boolean.parseBoolean(args.getString(1));
+				ECConfig.getConfig().set(args.getString(0) + ".protected", on);
+				TaskContainer container = Scheduler.tasks.get(args.getString(0));
+				container.setEnabled(on);
+				EntityCleaner.reloadConf();
+				EntityCleaner.scheduler.reInitTaskList();
 			}
 		}
 	}

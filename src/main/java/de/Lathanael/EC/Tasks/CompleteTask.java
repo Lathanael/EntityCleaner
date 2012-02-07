@@ -21,7 +21,12 @@ package de.Lathanael.EC.Tasks;
 import java.util.List;
 
 import org.bukkit.World;
+import org.bukkit.entity.Boat;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Minecart;
+
+import de.Lathanael.EC.Utils.ECConfig;
+import de.Lathanael.EC.Utils.Tools;
 
 /**
  * @author Lathanael (aka Philippe Leipold)
@@ -43,7 +48,24 @@ public class CompleteTask implements Runnable {
 		for (World world : worlds) {
 			 entites = world.getEntities();
 			 for (Entity e : entites) {
-				 e.remove();
+				 if (ECConfig.ALL_PROTECTED.getBoolean()) {
+					 if (e instanceof Boat) {
+						 Boat boat = (Boat) e;
+						 if (ECConfig.ALL_PROTECTED.getBoolean() && !Tools.isBoatInWater(boat))
+							 boat.remove();
+						 else if (!ECConfig.ALL_PROTECTED.getBoolean())
+							 boat.remove();
+					 } else if (e instanceof Minecart) {
+						 Minecart cart = (Minecart) e;
+							if (Tools.isDerailed(cart)) {
+								if (ECConfig.ALL_PROTECTED.getBoolean() && Tools.isDerailed(cart)) {
+									cart.remove();
+								} else if (!ECConfig.ALL_PROTECTED.getBoolean())
+									cart.remove();
+							}
+					 }
+				 } else
+					 e.remove();
 			 }
 		}
 	}
