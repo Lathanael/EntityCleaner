@@ -116,17 +116,26 @@ public class Purge extends CoreCommand {
 			sender.sendMessage(Utils.I18n("TaskChanged", replace));
 		} else if (args.hasFlag('c')) {
 			// Check values of a task.
-			TaskContainer container = Scheduler.tasks.get(args.getString(0));
+			String task = args.getString(0);
+			TaskContainer container = Scheduler.tasks.get(task);
 			if (Utils.isPlayer(sender, false)) {
 				ChatColor col1 = ChatColor.AQUA;
 				ChatColor col2 = ChatColor.GOLD;
 				sender.sendMessage(col1 + "Enabled: " + col2 + container.isEnabled());
 				sender.sendMessage(col1 + "Initial Start Time: " + col2 + container.getInitTIme());
 				sender.sendMessage(col1 + "Waiting Time: " + col2 + container.getTime());
+				if (task.equalsIgnoreCase("cart") || task.equalsIgnoreCase("boat") || task.equalsIgnoreCase("vehicle")
+						|| task.equalsIgnoreCase("all")) {
+					sender.sendMessage(col1 + "Protected: " + col2 + container.isProtected());
+				}
 			} else {
 				sender.sendMessage("Enabled: " + container.isEnabled());
 				sender.sendMessage("Initial Start Time: " + container.getInitTIme());
 				sender.sendMessage("Waiting Time: " + container.getTime());
+				if (task.equalsIgnoreCase("cart") || task.equalsIgnoreCase("boat") || task.equalsIgnoreCase("vehicle")
+						|| task.equalsIgnoreCase("all")) {
+					sender.sendMessage("Protected: " + container.isProtected());
+				}
 			}
 		} else if (args.hasFlag('p')) {
 			String task = args.getString(0);
@@ -135,7 +144,7 @@ public class Purge extends CoreCommand {
 				boolean on = Boolean.parseBoolean(args.getString(1));
 				ECConfig.getConfig().set(args.getString(0) + ".protected", on);
 				TaskContainer container = Scheduler.tasks.get(args.getString(0));
-				container.setEnabled(on);
+				container.setProtected(on);
 				EntityCleaner.reloadConf();
 				EntityCleaner.scheduler.reInitTaskList();
 				replace.put("name", args.getString(0));

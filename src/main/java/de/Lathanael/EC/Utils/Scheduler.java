@@ -121,24 +121,24 @@ public class Scheduler {
 
 	private void initTaskList() {
 		tasks.put("cart", new TaskContainer((Runnable) new CartTask(worlds), (long) (ECConfig.C_INIT_TIME.getDouble(0.5D)*20*60),
-				(long) (ECConfig.C_TIME.getDouble(5D)*20*60), ECConfig.C_ENABLE.getBoolean()));
+				(long) (ECConfig.C_TIME.getDouble(5D)*20*60), ECConfig.C_ENABLE.getBoolean(), ECConfig.C_DERAILED.getBoolean()));
 		tasks.put("boat", new TaskContainer((Runnable) new BoatTask(worlds), (long) (ECConfig.B_INIT_TIME.getDouble(0.5D)*20*60),
-				(long) (ECConfig.B_TIME.getDouble(5D)*20*60), ECConfig.B_ENABLE.getBoolean()));
+				(long) (ECConfig.B_TIME.getDouble(5D)*20*60), ECConfig.B_ENABLE.getBoolean(), ECConfig.B_WATER.getBoolean()));
 		tasks.put("arrow", new TaskContainer((Runnable) new ArrowTask(worlds), (long) (ECConfig.AR_INIT_TIME.getDouble(0.5D)*20*60),
-				(long) (ECConfig.AR_TIME.getDouble(5D)*20*60), ECConfig.AR_ENABLE.getBoolean()));
+				(long) (ECConfig.AR_TIME.getDouble(5D)*20*60), ECConfig.AR_ENABLE.getBoolean(), false));
 		tasks.put("animal", new TaskContainer((Runnable) new AnimalTask(worlds), (long) (ECConfig.AN_INIT_TIME.getDouble(0.5D)*20*60),
-				(long) (ECConfig.AN_TIME.getDouble(5D)*20*60), ECConfig.AN_ENABLE.getBoolean()));
+				(long) (ECConfig.AN_TIME.getDouble(5D)*20*60), ECConfig.AN_ENABLE.getBoolean(), false));
 		tasks.put("orb", new TaskContainer((Runnable) new OrbTask(worlds), (long) (ECConfig.O_INIT_TIME.getDouble(0.5D)*20*60),
-				(long) (ECConfig.O_TIME.getDouble(5D)*20*60), ECConfig.O_ENABLE.getBoolean()));
+				(long) (ECConfig.O_TIME.getDouble(5D)*20*60), ECConfig.O_ENABLE.getBoolean(), false));
 		tasks.put("monster", new TaskContainer((Runnable) new MonsterTask(worlds), (long) (ECConfig.M_INIT_TIME.getDouble(0.5D)*20*60),
-				(long) (ECConfig.M_TIME.getDouble(5D)*20*60), ECConfig.M_ENABLE.getBoolean()));
+				(long) (ECConfig.M_TIME.getDouble(5D)*20*60), ECConfig.M_ENABLE.getBoolean(), false));
 		tasks.put("villager", new TaskContainer((Runnable) new VillagerTask(worlds), (long) (ECConfig.VIL_INIT_TIME.getDouble(0.5D)*20*60),
-				(long) (ECConfig.VIL_TIME.getDouble(5D)*20*60), ECConfig.VIL_ENABLE.getBoolean()));
+				(long) (ECConfig.VIL_TIME.getDouble(5D)*20*60), ECConfig.VIL_ENABLE.getBoolean(), false));
 		tasks.put("item", new TaskContainer((Runnable) new FloatingItemsTask(worlds, items), (long) (ECConfig.FI_INIT_TIME.getDouble(0.5D)*20*60),
-				(long) (ECConfig.FI_TIME.getDouble(5D)*20*60), ECConfig.FI_ENABLE.getBoolean()));
+				(long) (ECConfig.FI_TIME.getDouble(5D)*20*60), ECConfig.FI_ENABLE.getBoolean(), false));
 		tasks.put("vehicle", new TaskContainer((Runnable) new VehicleTask(worlds), (long) (ECConfig.VEH_INIT_TIME.getDouble(0.5D)*20*60),
-				(long) (ECConfig.VEH_TIME.getDouble(5D)*20*60), ECConfig.VEH_ENABLE.getBoolean()));
+				(long) (ECConfig.VEH_TIME.getDouble(5D)*20*60), ECConfig.VEH_ENABLE.getBoolean(), ECConfig.VEH_PROTECTED.getBoolean()));
 		tasks.put("all", new TaskContainer((Runnable) new CompleteTask(worlds), (long) (ECConfig.ALL_INIT_TIME.getDouble(0.5D)*20*60),
-				(long) (ECConfig.ALL_TIME.getDouble(5D)*20*60), ECConfig.ALL_ENABLE.getBoolean()));
+				(long) (ECConfig.ALL_TIME.getDouble(5D)*20*60), ECConfig.ALL_ENABLE.getBoolean(), ECConfig.ALL_PROTECTED.getBoolean()));
 	}
 }

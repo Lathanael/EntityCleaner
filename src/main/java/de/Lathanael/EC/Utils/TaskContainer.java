@@ -28,12 +28,14 @@ public class TaskContainer {
 	private long initTime;
 	private long time;
 	private boolean enabled;
+	private boolean protect;
 
-	public TaskContainer(Runnable task, long initTime, long time, boolean enabled) {
+	public TaskContainer(Runnable task, long initTime, long time, boolean enabled, boolean protect) {
 		this.task = task;
 		this.initTime = initTime;
 		this.time = time;
 		this.enabled = enabled;
+		this.protect = protect;
 	}
 
 	public Runnable getTask() {
@@ -66,5 +68,13 @@ public class TaskContainer {
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+	}
+
+	public boolean isProtected() {
+		return protect;
+	}
+
+	public void setProtected(boolean protect) {
+		this.protect = protect;
 	}
 }
