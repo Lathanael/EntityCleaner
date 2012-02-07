@@ -18,6 +18,8 @@
 
 package de.Lathanael.EC.Commands;
 
+import java.util.HashMap;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -42,12 +44,18 @@ public class Purge extends CoreCommand {
 
 	@Override
 	public void execute(CommandSender sender, CommandArgs args) {
+		HashMap<String, String> replace = new HashMap<String, String>();
 		if (args.hasFlag('s')) {
 			// Start/Stop a task
-			if (Scheduler.taskIDs.containsKey(args.getString(0).toLowerCase()))
+			if (Scheduler.taskIDs.containsKey(args.getString(0).toLowerCase())) {
 				EntityCleaner.scheduler.stopTask(args.getString(0).toLowerCase());
-			else
+				replace.put("name", args.getString(0));
+				sender.sendMessage(Utils.I18n("TaskStop", replace));
+			} else {
 				EntityCleaner.scheduler.startTask(args.getString(0).toLowerCase());
+				replace.put("name", args.getString(0));
+				sender.sendMessage(Utils.I18n("TaskStart", replace));
+			}
 		} else if (args.hasFlag('t')) {
 			// Set time between two executions of the task
 			long time = (long) (args.getDouble(1)*20*60);
@@ -56,6 +64,9 @@ public class Purge extends CoreCommand {
 			container.setTime(time);
 			EntityCleaner.reloadConf();
 			EntityCleaner.scheduler.reInitTaskList();
+			replace.put("name", args.getString(0));
+			replace.put("list", "Time - " + time);
+			sender.sendMessage(Utils.I18n("TaskChange", replace));
 		} else if (args.hasFlag('i')) {
 			// Set the initial waiting time of the task
 			long time = (long) (args.getDouble(1)*20*60);
@@ -64,6 +75,9 @@ public class Purge extends CoreCommand {
 			container.setInitTime(time);
 			EntityCleaner.reloadConf();
 			EntityCleaner.scheduler.reInitTaskList();
+			replace.put("name", args.getString(0));
+			replace.put("list", "Initial waiting Time - " + time);
+			sender.sendMessage(Utils.I18n("TaskChange", replace));
 		} else if (args.hasFlag('o')) {
 			// Turn a task on/off
 			boolean on = Boolean.parseBoolean(args.getString(1));
@@ -72,9 +86,14 @@ public class Purge extends CoreCommand {
 			container.setEnabled(on);
 			EntityCleaner.reloadConf();
 			EntityCleaner.scheduler.reInitTaskList();
+			replace.put("name", args.getString(0));
+			replace.put("list", "Enable - " + on);
+			sender.sendMessage(Utils.I18n("TaskChange", replace));
 		} else if (args.hasFlag('r')) {
 			// Restart a task
 			EntityCleaner.scheduler.restartTask(args.getString(0));
+			replace.put("name", args.getString(0));
+			sender.sendMessage(Utils.I18n("TaskRestart", replace));
 		} else if (args.hasFlag('a')) {
 			// Set all values of a task (excluding the check value)
 			long time = (long) (args.getDouble(1)*20*60);
@@ -90,6 +109,11 @@ public class Purge extends CoreCommand {
 			container.setInitTime(initTime);
 			EntityCleaner.reloadConf();
 			EntityCleaner.scheduler.reInitTaskList();
+			replace.put("name", args.getString(0));
+			String list = "Enable - " + on + "//n" + "Initial waiting Time - " + initTime+ "//n"
+					+ "Time - " + time;
+			replace.put("list", list);
+			sender.sendMessage(Utils.I18n("TaskChanged", replace));
 		} else if (args.hasFlag('c')) {
 			// Check values of a task.
 			TaskContainer container = Scheduler.tasks.get(args.getString(0));
@@ -114,6 +138,9 @@ public class Purge extends CoreCommand {
 				container.setEnabled(on);
 				EntityCleaner.reloadConf();
 				EntityCleaner.scheduler.reInitTaskList();
+				replace.put("name", args.getString(0));
+				replace.put("list", "Protected - " + on);
+				sender.sendMessage(Utils.I18n("TaskChanged", replace));
 			}
 		}
 	}

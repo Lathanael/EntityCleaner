@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 
+import org.bukkit.ChatColor;
 import org.bukkit.plugin.PluginDescriptionFile;
 
 import be.Balor.Manager.CommandManager;
@@ -96,7 +97,14 @@ public class EntityCleaner extends AbstractAdminCmdPlugin{
 
 	@Override
 	protected void setDefaultLocale() {
-		Utils.addLocale("","");
+		ChatColor col1 = ChatColor.GOLD;
+		ChatColor col2 = ChatColor.AQUA;
+		ChatColor col3 = ChatColor.DARK_GREEN;
+		Utils.addLocale("TaskChange", col2 + "Task " + col1 + "%name " + col2 + "has been modified with the following variable(s)://n"
+				+ col3 + "%list");
+		Utils.addLocale("TaskStop", col2 + "Task " + col1 + "%name " + col2 + "has been stopped!");
+		Utils.addLocale("TaskStart", col2 + "Task " + col1 + "%name " + col2 + "has been started!");
+		Utils.addLocale("TaskRestart", col2 + "Task " + col1 + "%name " + col2 + "has been restarted!");
 	}
 
 	public static void reloadConf() {
