@@ -110,8 +110,7 @@ public class Purge extends CoreCommand {
 			EntityCleaner.reloadConf();
 			EntityCleaner.scheduler.reInitTaskList();
 			replace.put("name", args.getString(0));
-			String eol = System.getProperty("line.separator");
-			String list = "Enable - " + on + eol + "Initial waiting Time - " + initTime+ eol
+			String list = "Enable - " + on + "//n" + "Initial waiting Time - " + initTime + "//n"
 					+ "Time - " + time;
 			replace.put("list", list);
 			sender.sendMessage(Utils.I18n("TaskChanged", replace));
