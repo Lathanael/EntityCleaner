@@ -50,16 +50,16 @@ public class VehicleTask implements Runnable {
 			 for (Entity e : entites) {
 				 if (e instanceof Boat) {
 					 Boat boat = (Boat) e;
-					 if (ECConfig.VEH_PROTECTED.getBoolean() && !Tools.isBoatInWater(boat))
+					 if (ECConfig.VEH_PROTECT.getBoolean() && !Tools.isBoatInWater(boat))
 						 boat.remove();
-					 else if (!ECConfig.VEH_PROTECTED.getBoolean())
+					 else if (!ECConfig.VEH_PROTECT.getBoolean())
 						 boat.remove();
 				 } else if (e instanceof Minecart) {
 					Minecart cart = (Minecart) e;
 					if (Tools.isDerailed(cart)) {
-						if (ECConfig.VEH_PROTECTED.getBoolean() && Tools.isDerailed(cart)) {
+						if (ECConfig.VEH_PROTECT.getBoolean() && Tools.isDerailed(cart)) {
 							cart.remove();
-						} else if (!ECConfig.VEH_PROTECTED.getBoolean())
+						} else if (!ECConfig.VEH_PROTECT.getBoolean())
 							cart.remove();
 					}
 				 }

@@ -137,8 +137,8 @@ public class Scheduler {
 		tasks.put("item", new TaskContainer((Runnable) new FloatingItemsTask(worlds, items), (long) (ECConfig.FI_INIT_TIME.getDouble(0.5D)*20*60),
 				(long) (ECConfig.FI_TIME.getDouble(5D)*20*60), ECConfig.FI_ENABLE.getBoolean(), false));
 		tasks.put("vehicle", new TaskContainer((Runnable) new VehicleTask(worlds), (long) (ECConfig.VEH_INIT_TIME.getDouble(0.5D)*20*60),
-				(long) (ECConfig.VEH_TIME.getDouble(5D)*20*60), ECConfig.VEH_ENABLE.getBoolean(), ECConfig.VEH_PROTECTED.getBoolean()));
+				(long) (ECConfig.VEH_TIME.getDouble(5D)*20*60), ECConfig.VEH_ENABLE.getBoolean(), ECConfig.VEH_PROTECT.getBoolean()));
 		tasks.put("all", new TaskContainer((Runnable) new CompleteTask(worlds), (long) (ECConfig.ALL_INIT_TIME.getDouble(0.5D)*20*60),
-				(long) (ECConfig.ALL_TIME.getDouble(5D)*20*60), ECConfig.ALL_ENABLE.getBoolean(), ECConfig.ALL_PROTECTED.getBoolean()));
+				(long) (ECConfig.ALL_TIME.getDouble(5D)*20*60), ECConfig.ALL_ENABLE.getBoolean(), ECConfig.ALL_PROTECT.getBoolean()));
 	}
 }

@@ -48,19 +48,19 @@ public class CompleteTask implements Runnable {
 		for (World world : worlds) {
 			 entites = world.getEntities();
 			 for (Entity e : entites) {
-				 if (ECConfig.ALL_PROTECTED.getBoolean()) {
+				 if (ECConfig.ALL_PROTECT.getBoolean()) {
 					 if (e instanceof Boat) {
 						 Boat boat = (Boat) e;
-						 if (ECConfig.ALL_PROTECTED.getBoolean() && !Tools.isBoatInWater(boat))
+						 if (ECConfig.ALL_PROTECT.getBoolean() && !Tools.isBoatInWater(boat))
 							 boat.remove();
-						 else if (!ECConfig.ALL_PROTECTED.getBoolean())
+						 else if (!ECConfig.ALL_PROTECT.getBoolean())
 							 boat.remove();
 					 } else if (e instanceof Minecart) {
 						 Minecart cart = (Minecart) e;
 							if (Tools.isDerailed(cart)) {
-								if (ECConfig.ALL_PROTECTED.getBoolean() && Tools.isDerailed(cart)) {
+								if (ECConfig.ALL_PROTECT.getBoolean() && Tools.isDerailed(cart)) {
 									cart.remove();
-								} else if (!ECConfig.ALL_PROTECTED.getBoolean())
+								} else if (!ECConfig.ALL_PROTECT.getBoolean())
 									cart.remove();
 							}
 					 }

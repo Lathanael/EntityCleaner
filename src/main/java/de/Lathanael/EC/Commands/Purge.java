@@ -113,7 +113,7 @@ public class Purge extends CoreCommand {
 			String list = "Enable - " + on + "//n" + "Initial waiting Time - " + initTime + "//n"
 					+ "Time - " + time;
 			replace.put("list", list);
-			sender.sendMessage(Utils.I18n("TaskChanged", replace));
+			sender.sendMessage(Utils.I18n("TaskChange", replace));
 		} else if (args.hasFlag('c')) {
 			// Check values of a task.
 			String task = args.getString(0);
@@ -144,14 +144,14 @@ public class Purge extends CoreCommand {
 			if (task.equalsIgnoreCase("cart") || task.equalsIgnoreCase("boat") || task.equalsIgnoreCase("vehicle")
 					|| task.equalsIgnoreCase("all")) {
 				boolean on = Boolean.parseBoolean(args.getString(1));
-				ECConfig.getConfig().set(args.getString(0) + ".protected", on);
+				ECConfig.getConfig().set(args.getString(0) + ".protect", on);
 				TaskContainer container = Scheduler.tasks.get(args.getString(0));
 				container.setProtected(on);
 				EntityCleaner.reloadConf();
 				EntityCleaner.scheduler.reInitTaskList();
-				replace.put("name", args.getString(0));
+				replace.put("name", task);
 				replace.put("list", "Protected - " + on);
-				sender.sendMessage(Utils.I18n("TaskChanged", replace));
+				sender.sendMessage(Utils.I18n("TaskChange", replace));
 			}
 		}
 	}
