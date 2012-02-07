@@ -122,6 +122,7 @@ public class Purge extends CoreCommand {
 			if (Utils.isPlayer(sender, false)) {
 				ChatColor col1 = ChatColor.AQUA;
 				ChatColor col2 = ChatColor.GOLD;
+				sender.sendMessage(col2 + task);
 				sender.sendMessage(col1 + "Enabled: " + col2 + container.isEnabled());
 				sender.sendMessage(col1 + "Initial Start Time: " + col2 + container.getInitTIme());
 				sender.sendMessage(col1 + "Waiting Time: " + col2 + container.getTime());
@@ -130,6 +131,7 @@ public class Purge extends CoreCommand {
 					sender.sendMessage(col1 + "Protected: " + col2 + container.isProtected());
 				}
 			} else {
+				sender.sendMessage(task);
 				sender.sendMessage("Enabled: " + container.isEnabled());
 				sender.sendMessage("Initial Start Time: " + container.getInitTIme());
 				sender.sendMessage("Waiting Time: " + container.getTime());
