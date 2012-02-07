@@ -49,53 +49,53 @@ public enum ECConfig {
 		}
 	}), "Worlds in which the Cleaners should work."),
 	DEBUG("debugMsg", true, "When set to true a lot of things will get logged!"),
-	ALL_ENABLE("All.enable", false,
+	ALL_ENABLE("all.enable", false,
 			"When set to true all entities listed below will be cleared every xx minutes."),
-	ALL_INIT_TIME("All.inittime", 5,
+	ALL_INIT_TIME("all.inittime", 0.5,
 			"Time in minutes before the first deletion occurs."),
-	ALL_TIME("All.time", 5,
+	ALL_TIME("all.time", 5,
 			"Time in minutes to wait between deleteing entities."),
-	C_ENABLE("Carts.enable", false,
+	C_ENABLE("cart.enable", false,
 	"When set to true minecarts will be cleared every xx minutes."),
-	C_DERAILED("Carts.derailed", true,
+	C_DERAILED("cart.derailed", true,
 			"When set to true only derailed minecarts will be removed."),
-	C_INIT_TIME("Carts.inittime", 5,
+	C_INIT_TIME("cart.inittime", 0.5,
 			"Time in minutes before the first deletion occurs."),
-	C_TIME("Carts.time", 5,
+	C_TIME("cart.time", 5,
 			"Time in minutes to wait between deleteing unused orbs."),
-	O_ENABLE("Orbs.enable", false,
+	O_ENABLE("orb.enable", false,
 			"When set to true experience orbs will be cleared every xx minutes."),
-	O_INIT_TIME("Orbs.inittime", 5,
+	O_INIT_TIME("orb.inittime", 0.5,
 			"Time in minutes before the first deletion occurs."),
-	O_TIME("Orbs.time", 5,
+	O_TIME("orb.time", 5,
 			"Time in minutes to wait between deleteing orbs."),
-	B_ENABLE("Boats.enable", false,
+	B_ENABLE("boat.enable", false,
 			"When set to true boats will be cleared every xx minutes."),
-	B_WATER("Boats.OutOfWater", true,
+	B_WATER("boat.OutOfWater", true,
 			"When set to true only boats outside of water will be removed."),
-	B_INIT_TIME("Boats.inittime", 5,
+	B_INIT_TIME("boat.inittime", 0.5,
 			"Time in minutes before the first deletion occurs."),
-	B_TIME("Boats.time", 5,
+	B_TIME("boat.time", 5,
 			"Time in minutes to wait between deleteing unused boats."),
-	AR_ENABLE("Arrows.enable", false,
+	AR_ENABLE("arrow.enable", false,
 			"When set to true arrows will be cleared every xx minutes."),
-	AR_INIT_TIME("Arrows.inittime", 5,
+	AR_INIT_TIME("arrow.inittime", 0.5,
 			"Time in minutes before the first deletion occurs."),
-	AR_TIME("Arrows.time", 5,
+	AR_TIME("arrow.time", 5,
 			"Time in minutes to wait between deleteing arrows."),
-	AN_ENABLE("Animals.enable", false,
+	AN_ENABLE("animal.enable", false,
 			"When set to true animals will be cleared every xx minutes."),
-	AN_INIT_TIME("Animals.inittime", 5,
+	AN_INIT_TIME("animal.inittime", 0.5,
 			"Time in minutes before the first deletion occurs."),
-	AN_TIME("Animals.time", 5,
+	AN_TIME("animal.time", 5,
 			"Time in minutes to wait between deleteing animals."),
-	FI_ENABLE("FloatingItems.enable", false,
+	FI_ENABLE("item.enable", false,
 			"When set to true floating Items specified in the itmes List will be cleared every xx minutes."),
-	FI_INIT_TIME("FloatingItems.inittime", 5,
+	FI_INIT_TIME("item.inittime", 0.5,
 			"Time in minutes before the first deletion occurs."),
-	FI_TIME("FloatingItems.time", 5,
+	FI_TIME("item.time", 5,
 			"Time in minutes to wait between deleteing items."),
-	ITEMS("FloatingItems.List", Collections.list(new Enumeration<String>() {
+	ITEMS("item.List", Collections.list(new Enumeration<String>() {
 		private int count = 0;
 		private final String[] val = new String[] { "Minecart", "Boat"};
 
@@ -109,25 +109,25 @@ public enum ECConfig {
 			return val[count++];
 		}
 	}), "Items which the Cleaners should remove when they are floating around, if you put all in the list, all floating items are removed."),
-	M_ENABLE("Monsters.enable", false,
+	M_ENABLE("monster.enable", false,
 			"When set to true monsters will be removed every xx minutes."),
-	M_INIT_TIME("Monster.inittime", 5,
+	M_INIT_TIME("monster.inittime", 0.5,
 			"Time in minutes before the first deletion occurs."),
-	M_TIME("Monsters.time", 5,
+	M_TIME("monster.time", 5,
 			"Time in minutes to wait between removing monsters."),
-	VEH_ENABLE("Vehicle.enable", false,
+	VEH_ENABLE("vehicle.enable", false,
 			"When set to true vehicles(carts and boats) will be cleared every xx minutes."),
-	VEH_INIT_TIME("Vehicle.inittime", 5,
+	VEH_INIT_TIME("vehicle.inittime", 0.5,
 			"Time in minutes before the first deletion occurs."),
-	VEH_TIME("Vehicle.time", 5,
+	VEH_TIME("vehicle.time", 5,
 			"Time in minutes to wait between removing vehicles."),
-	VEH_PROTECTED("Vehicle.protected", true,
+	VEH_PROTECTED("vehicle.protected", true,
 			"If set to true only derailed carts and boats outside of water will be removed."),
-	VIL_ENABLE("Villager.enable", false,
+	VIL_ENABLE("villager.enable", false,
 			"When set to true villagers will be removed every xx minutes."),
-	VIL_INIT_TIME("Villager.inittime", 5,
+	VIL_INIT_TIME("villager.inittime", 0.5,
 			"Time in minutes before the first deletion occurs."),
-	VIL_TIME("Villager.time", 5,
+	VIL_TIME("villager.time", 5,
 			"Time in minutes to wait between removing villagers.");
 
 	private final String confVal;
@@ -160,16 +160,16 @@ public enum ECConfig {
 		return config.getDouble(confVal);
 	}
 
+	public double getDouble(double defVal) {
+		return config.getDouble(confVal, defVal);
+	}
+
 	public boolean getBoolean() {
 		return config.getBoolean(confVal);
 	}
 
 	public long getLong() {
 		return config.getLong(confVal);
-	}
-
-	public long getLong(Long defVal) {
-		return config.getLong(confVal, defVal);
 	}
 
 	public List<String> getStringList() {
@@ -207,5 +207,9 @@ public enum ECConfig {
 	public static void setPluginInfos(PluginDescriptionFile pdf) {
 		ECConfig.pluginVersion = pdf.getVersion();
 		ECConfig.pluginName = pdf.getName();
+	}
+
+	public static ConfigurationSection getConfig() {
+		return config;
 	}
 }

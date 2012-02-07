@@ -40,15 +40,31 @@ public class TaskContainer {
 		return task;
 	}
 
+	public void setTask(Runnable task) {
+		this.task = task;
+	}
+
 	public long getInitTIme() {
 		return initTime;
+	}
+
+	public void setInitTime(long time) {
+		initTime = time;
 	}
 
 	public long getTime() {
 		return time;
 	}
 
+	public void setTime(long time) {
+		this.time = time;
+	}
+
 	public boolean isEnabled() {
 		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 }
