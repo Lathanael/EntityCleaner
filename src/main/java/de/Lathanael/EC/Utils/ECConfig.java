@@ -48,7 +48,7 @@ public enum ECConfig {
 			return val[count++];
 		}
 	}), "Worlds in which the Cleaners should work."),
-	DEBUG("debugMsg", true, "When set to true a lot of things will get logged!"),
+	DEBUG("debugMsg", false, "When set to true a lot of things will get logged!"),
 	ALL_ENABLE("all.enable", false,
 			"When set to true all entities listed below will be cleared every xx minutes."),
 	ALL_INIT_TIME("all.inittime", 0.5,
