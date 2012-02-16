@@ -30,9 +30,9 @@ import org.bukkit.entity.Entity;
  */
 public class AnimalTask implements Runnable {
 
-	private List<World> worlds;
-	public AnimalTask(List<World> worlds) {
-		this.worlds = worlds;
+	private World world;
+	public AnimalTask(World world) {
+		this.world = world;
 	}
 
 	/* (non-Javadoc)
@@ -41,13 +41,11 @@ public class AnimalTask implements Runnable {
 	@Override
 	public void run() {
 		List<Entity> entites;
-		for (World world : worlds) {
-			 entites = world.getEntities();
-			 for (Entity e : entites) {
-				 if (e instanceof Animals) {
-					 e.remove();
-				 }
-			 }
+		entites = world.getEntities();
+		for (Entity e : entites) {
+			if (e instanceof Animals) {
+				e.remove();
+			}
 		}
 	}
 }

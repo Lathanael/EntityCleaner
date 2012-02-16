@@ -30,9 +30,9 @@ import org.bukkit.entity.Villager;
  */
 public class VillagerTask implements Runnable {
 
-	private List<World> worlds;
-	public VillagerTask(List<World> worlds) {
-		this.worlds = worlds;
+	private World world;
+	public VillagerTask(World world) {
+		this.world = world;
 	}
 
 	/* (non-Javadoc)
@@ -41,14 +41,11 @@ public class VillagerTask implements Runnable {
 	@Override
 	public void run() {
 		List<Entity> entites;
-		for (World world : worlds) {
-			 entites = world.getEntities();
-			 for (Entity e : entites) {
-				 if (e instanceof Villager) {
-					 e.remove();
-				 }
-			 }
+		entites = world.getEntities();
+		for (Entity e : entites) {
+			if (e instanceof Villager) {
+				e.remove();
+			}
 		}
 	}
-
 }

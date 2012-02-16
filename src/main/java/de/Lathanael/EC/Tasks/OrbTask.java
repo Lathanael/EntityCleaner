@@ -30,9 +30,9 @@ import org.bukkit.entity.ExperienceOrb;
  */
 public class OrbTask implements Runnable {
 
-	private List<World> worlds;
-	public OrbTask(List<World> worlds) {
-		this.worlds = worlds;
+	private World world;
+	public OrbTask(World world) {
+		this.world = world;
 	}
 	/* (non-Javadoc)
 	 * @see java.lang.Runnable#run()
@@ -40,14 +40,11 @@ public class OrbTask implements Runnable {
 	@Override
 	public void run() {
 		List<Entity> entites;
-		for (World world : worlds) {
-			 entites = world.getEntities();
-			 for (Entity e : entites) {
-				 if (e instanceof ExperienceOrb) {
-					 e.remove();
-				 }
-			 }
+		entites = world.getEntities();
+		for (Entity e : entites) {
+			if (e instanceof ExperienceOrb) {
+				e.remove();
+			}
 		}
 	}
-
 }

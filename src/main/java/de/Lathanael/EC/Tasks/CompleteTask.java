@@ -21,12 +21,7 @@ package de.Lathanael.EC.Tasks;
 import java.util.List;
 
 import org.bukkit.World;
-import org.bukkit.entity.Boat;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Minecart;
-
-import de.Lathanael.EC.Utils.ECConfig;
-import de.Lathanael.EC.Utils.Tools;
 
 /**
  * @author Lathanael (aka Philippe Leipold)
@@ -34,9 +29,9 @@ import de.Lathanael.EC.Utils.Tools;
  */
 public class CompleteTask implements Runnable {
 
-	private List<World> worlds;
-	public CompleteTask(List<World> worlds) {
-		this.worlds = worlds;
+	private World world;
+	public CompleteTask(World world) {
+		this.world = world;
 	}
 
 	/* (non-Javadoc)
@@ -45,28 +40,9 @@ public class CompleteTask implements Runnable {
 	@Override
 	public void run() {
 		List<Entity> entites;
-		for (World world : worlds) {
-			 entites = world.getEntities();
-			 for (Entity e : entites) {
-				 if (ECConfig.ALL_PROTECT.getBoolean()) {
-					 if (e instanceof Boat) {
-						 Boat boat = (Boat) e;
-						 if (ECConfig.ALL_PROTECT.getBoolean() && !Tools.isBoatInWater(boat))
-							 boat.remove();
-						 else if (!ECConfig.ALL_PROTECT.getBoolean())
-							 boat.remove();
-					 } else if (e instanceof Minecart) {
-						 Minecart cart = (Minecart) e;
-							if (Tools.isDerailed(cart)) {
-								if (ECConfig.ALL_PROTECT.getBoolean() && Tools.isDerailed(cart)) {
-									cart.remove();
-								} else if (!ECConfig.ALL_PROTECT.getBoolean())
-									cart.remove();
-							}
-					 }
-				 } else
-					 e.remove();
-			 }
+		entites = world.getEntities();
+		for (Entity e : entites) {
+			e.remove();
 		}
 	}
 }

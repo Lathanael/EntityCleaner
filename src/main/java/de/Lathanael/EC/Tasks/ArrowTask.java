@@ -30,9 +30,9 @@ import org.bukkit.entity.Entity;
  */
 public class ArrowTask implements Runnable {
 
-	private List<World> worlds;
-	public ArrowTask(List<World> worlds) {
-		this.worlds = worlds;
+	private World world;
+	public ArrowTask(World world) {
+		this.world = world;
 	}
 
 	/* (non-Javadoc)
@@ -41,13 +41,11 @@ public class ArrowTask implements Runnable {
 	@Override
 	public void run() {
 		List<Entity> entites;
-		for (World world : worlds) {
-			 entites = world.getEntities();
-			 for (Entity e : entites) {
-				 if (e instanceof Arrow) {
-					 e.remove();
-				 }
-			 }
+		entites = world.getEntities();
+		for (Entity e : entites) {
+			if (e instanceof Arrow) {
+				e.remove();
+			}
 		}
 	}
 

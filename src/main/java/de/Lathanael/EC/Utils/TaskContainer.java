@@ -29,13 +29,15 @@ public class TaskContainer {
 	private long time;
 	private boolean enabled;
 	private boolean protect;
+	private boolean passenger;
 
-	public TaskContainer(Runnable task, long initTime, long time, boolean enabled, boolean protect) {
+	public TaskContainer(Runnable task, long initTime, long time, boolean enabled, boolean protect, boolean passenger) {
 		this.task = task;
 		this.initTime = initTime;
 		this.time = time;
 		this.enabled = enabled;
 		this.protect = protect;
+		this.passenger = passenger;
 	}
 
 	public Runnable getTask() {
@@ -76,5 +78,13 @@ public class TaskContainer {
 
 	public void setProtected(boolean protect) {
 		this.protect = protect;
+	}
+
+	public boolean isPassanger() {
+		return passenger;
+	}
+
+	public void setPassanger(boolean passenger) {
+		this.passenger = passenger;
 	}
 }

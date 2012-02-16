@@ -18,8 +18,8 @@
 
 package de.Lathanael.EC.Utils;
 
-import java.util.Collections;
-import java.util.Enumeration;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,152 +30,43 @@ import org.bukkit.plugin.PluginDescriptionFile;
 /**
  * @author Lathanael (aka Philippe Leipold)
  *
- * Code-Parts taken from AdminCmd ConfigEnum
  */
-public enum ECConfig {
+public class ECConfig {
 
-	WORLDS("Worlds", Collections.list(new Enumeration<String>() {
-		private int count = 0;
-		private final String[] val = new String[] { "world", "world_nether", "world_the_end" };
-
-		@Override
-		public boolean hasMoreElements() {
-			return count < val.length;
-		}
-
-		@Override
-		public String nextElement() {
-			return val[count++];
-		}
-	}), "Worlds in which the Cleaners should work."),
-	DEBUG("debugMsg", false, "When set to true a lot of things will get logged!"),
-	ALL_ENABLE("all.enable", false,
-			"When set to true all entities listed below will be cleared every xx minutes."),
-	ALL_INIT_TIME("all.inittime", 0.5,
-			"Time in minutes before the first deletion occurs."),
-	ALL_TIME("all.time", 5,
-			"Time in minutes to wait between deleteing entities."),
-	ALL_PROTECT("all.protect", true,
-			"If set to true only derailed carts and boats outside of water will be removed."),
-	C_ENABLE("cart.enable", false,
-	"When set to true minecarts will be cleared every xx minutes."),
-	C_DERAILED("cart.protect", true,
-			"When set to true only derailed minecarts will be removed."),
-	C_INIT_TIME("cart.inittime", 0.5,
-			"Time in minutes before the first deletion occurs."),
-	C_TIME("cart.time", 5,
-			"Time in minutes to wait between deleteing unused orbs."),
-	O_ENABLE("orb.enable", false,
-			"When set to true experience orbs will be cleared every xx minutes."),
-	O_INIT_TIME("orb.inittime", 0.5,
-			"Time in minutes before the first deletion occurs."),
-	O_TIME("orb.time", 5,
-			"Time in minutes to wait between deleteing orbs."),
-	B_ENABLE("boat.enable", false,
-			"When set to true boats will be cleared every xx minutes."),
-	B_WATER("boat.protect", true,
-			"When set to true only boats outside of water will be removed."),
-	B_INIT_TIME("boat.inittime", 0.5,
-			"Time in minutes before the first deletion occurs."),
-	B_TIME("boat.time", 5,
-			"Time in minutes to wait between deleteing unused boats."),
-	AR_ENABLE("arrow.enable", false,
-			"When set to true arrows will be cleared every xx minutes."),
-	AR_INIT_TIME("arrow.inittime", 0.5,
-			"Time in minutes before the first deletion occurs."),
-	AR_TIME("arrow.time", 5,
-			"Time in minutes to wait between deleteing arrows."),
-	AN_ENABLE("animal.enable", false,
-			"When set to true animals will be cleared every xx minutes."),
-	AN_INIT_TIME("animal.inittime", 0.5,
-			"Time in minutes before the first deletion occurs."),
-	AN_TIME("animal.time", 5,
-			"Time in minutes to wait between deleteing animals."),
-	FI_ENABLE("item.enable", false,
-			"When set to true floating Items specified in the itmes List will be cleared every xx minutes."),
-	FI_INIT_TIME("item.inittime", 0.5,
-			"Time in minutes before the first deletion occurs."),
-	FI_TIME("item.time", 5,
-			"Time in minutes to wait between deleteing items."),
-	ITEMS("item.List", Collections.list(new Enumeration<String>() {
-		private int count = 0;
-		private final String[] val = new String[] { "Minecart", "Boat"};
-
-		@Override
-		public boolean hasMoreElements() {
-			return count < val.length;
-		}
-
-		@Override
-		public String nextElement() {
-			return val[count++];
-		}
-	}), "Items which the Cleaners should remove when they are floating around, if you put all in the list, all floating items are removed."),
-	M_ENABLE("monster.enable", false,
-			"When set to true monsters will be removed every xx minutes."),
-	M_INIT_TIME("monster.inittime", 0.5,
-			"Time in minutes before the first deletion occurs."),
-	M_TIME("monster.time", 5,
-			"Time in minutes to wait between removing monsters."),
-	VEH_ENABLE("vehicle.enable", false,
-			"When set to true vehicles(carts and boats) will be cleared every xx minutes."),
-	VEH_INIT_TIME("vehicle.inittime", 0.5,
-			"Time in minutes before the first deletion occurs."),
-	VEH_TIME("vehicle.time", 5,
-			"Time in minutes to wait between removing vehicles."),
-	VEH_PROTECT("vehicle.protect", true,
-			"If set to true only derailed carts and boats outside of water will be removed."),
-	VIL_ENABLE("villager.enable", false,
-			"When set to true villagers will be removed every xx minutes."),
-	VIL_INIT_TIME("villager.inittime", 0.5,
-			"Time in minutes before the first deletion occurs."),
-	VIL_TIME("villager.time", 5,
-			"Time in minutes to wait between removing villagers.");
-
-	private final String confVal;
-	private final Object defaultVal;
-	private final String description;
+	private static List<String> header;
 	private static ConfigurationSection config;
 	private static String pluginVersion;
 	private static String pluginName;
 
-	/**
-	* @param confVal
-	* @param defaultVal
-	* @param description
-	*/
-	private ECConfig(String confVal, Object defaultVal, String description) {
-		this.confVal = confVal;
-		this.defaultVal = defaultVal;
-		this.description = description;
+	public ECConfig() {
 	}
 
-	public String getString() {
-		return config.getString(confVal);
+	public static String getString(String path) {
+		return config.getString(path);
 	}
 
-	public int getInt() {
-		return config.getInt(confVal);
+	public static int getInt(String path) {
+		return config.getInt(path);
 	}
 
-	public double getDouble() {
-		return config.getDouble(confVal);
+	public static double getDouble(String path) {
+		return config.getDouble(path);
 	}
 
-	public double getDouble(double defVal) {
-		return config.getDouble(confVal, defVal);
+	public static double getDouble(String path, double defVal) {
+		return config.getDouble(path, defVal);
 	}
 
-	public boolean getBoolean() {
-		return config.getBoolean(confVal);
+	public static boolean getBoolean(String path) {
+		return config.getBoolean(path);
 	}
 
-	public long getLong() {
-		return config.getLong(confVal);
+	public static long getLong(String path) {
+		return config.getLong(path);
 	}
 
-	public List<String> getStringList() {
-		return config.getStringList(confVal);
+	public static List<String> getStringList(String path) {
+		return config.getStringList(path);
 	}
 
 	/**
@@ -183,18 +74,60 @@ public enum ECConfig {
 	*/
 	public static Map<String, Object> getDefaultvalues() {
 		Map<String, Object> values = new LinkedHashMap<String, Object>();
-		for (ECConfig ce : values())
-			values.put(ce.confVal, ce.defaultVal);
+		values.put("debugMsg", false);
+		values.put("world.all.enable", false);
+		values.put("world.all.inittime", 0.5D);
+		values.put("world.all.time", 5);
+		values.put("world.cart.enable", false);
+		values.put("world.cart.inittime", 0.5D);
+		values.put("world.cart.time", 5);
+		values.put("world.cart.protect", true);
+		values.put("world.cart.passenger", true);
+		values.put("world.boat.enable", false);
+		values.put("world.boat.inittime", 0.5D);
+		values.put("world.boat.time", 5);
+		values.put("world.boat.protect", true);
+		values.put("world.boat.passenger", true);
+		values.put("world.vehicle.enable", false);
+		values.put("world.vehicle.inittime", 0.5D);
+		values.put("world.vehicle.time", 5);
+		values.put("world.vehicle.protect", true);
+		values.put("world.vehicle.passenger", true);
+		values.put("world.orb.enable", false);
+		values.put("world.orb.inittime", 0.5D);
+		values.put("world.orb.time", 5);
+		values.put("world.arrow.enable", false);
+		values.put("world.arrow.inittime", 0.5D);
+		values.put("world.arrow.time", 5);
+		values.put("world.monster.enable", false);
+		values.put("world.monster.inittime", 0.5D);
+		values.put("world.monster.time", 5);
+		values.put("world.villager.enable", false);
+		values.put("world.villager.inittime", 0.5D);
+		values.put("world.villager.time", 5);
+		values.put("world.animal.enable", false);
+		values.put("world.animal.inittime", 0.5D);
+		values.put("world.animal.time", 5);
+		values.put("world.item.enable", false);
+		values.put("world.item.inittime", 0.5D);
+		values.put("world.item.time", 5);
+		values.put("world.item.list", Arrays.asList("Minecart", "Boat"));
 		return values;
 	}
 
 	public static String getHeader() {
+		header = new ArrayList<String>();
+		header.add("xx.xx.enable: When set to true all entities associated with the Task will be cleared every xx minutes.");
+		header.add("xx.xx.inittime: Time in minutes before the first deletion occurs.");
+		header.add("xx.xx.time: Time in minutes to wait between deleteing");
+		header.add("xx.xx.protect: If set to true only derailed carts and boats outside of water will be removed.");
+		header.add("xx.xx.passenger: If set to true only carts and boats without passengers will be removed.");
+		header.add("xx.item.list: Items which the item task should remove when they are floating around, if you put \"all\" in the list, all floating items are removed.");
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("Configuration file of ").append(pluginName).append('\n');
 		buffer.append("Plugin Version: ").append(pluginVersion).append('\n').append('\n');
-		for (ECConfig ce : values())
-			buffer.append(ce.confVal).append("\t:\t").append(ce.description).append(" (Default : ")
-			.append(ce.defaultVal).append(')').append('\n');
+		for (String s : header)
+			buffer.append(s).append('\n');
 		return buffer.toString();
 	}
 

@@ -22,6 +22,7 @@ import java.util.HashMap;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import de.Lathanael.EC.Main.EntityCleaner;
 import de.Lathanael.EC.Utils.ECConfig;
@@ -45,113 +46,182 @@ public class Purge extends CoreCommand {
 	@Override
 	public void execute(CommandSender sender, CommandArgs args) {
 		HashMap<String, String> replace = new HashMap<String, String>();
+		String world = "";
+		boolean noWorld = true;
+		if (Utils.isPlayer(sender, false)) {
+			if (args.length > 2)
+				world = args.getString(0);
+			else {
+				world = ((Player) sender).getWorld().getName();
+				noWorld = false;
+			}
+		} else
+			world = args.getString(0);
+		String taskName;
+		if (noWorld)
+			taskName = world + "." + args.getString(0).toLowerCase();
+		else
+			taskName = world + "." + args.getString(1).toLowerCase();
 		if (args.hasFlag('s')) {
 			// Start/Stop a task
-			if (Scheduler.taskIDs.containsKey(args.getString(0).toLowerCase())) {
-				EntityCleaner.scheduler.stopTask(args.getString(0).toLowerCase());
-				replace.put("name", args.getString(0));
+			if (Scheduler.taskIDs.containsKey(taskName)) {
+				EntityCleaner.scheduler.stopTask(taskName);
+				replace.put("name", taskName);
 				sender.sendMessage(Utils.I18n("TaskStop", replace));
 			} else {
-				EntityCleaner.scheduler.startTask(args.getString(0).toLowerCase());
-				replace.put("name", args.getString(0));
+				EntityCleaner.scheduler.startTask(taskName);
+				replace.put("name", taskName);
 				sender.sendMessage(Utils.I18n("TaskStart", replace));
 			}
 		} else if (args.hasFlag('t')) {
 			// Set time between two executions of the task
-			long time = (long) (args.getDouble(1)*20*60);
-			ECConfig.getConfig().set(args.getString(0) + ".time", time);
-			TaskContainer container = Scheduler.tasks.get(args.getString(0));
+			long time;
+			if (noWorld)
+				time = (long) (args.getDouble(1)*20*60);
+			else
+				time = (long) (args.getDouble(2)*20*60);
+			ECConfig.getConfig().set(taskName + ".time", time/(20*60));
+			TaskContainer container = Scheduler.tasks.get(taskName);
 			container.setTime(time);
+			Scheduler.tasks.put(taskName, container);
 			EntityCleaner.reloadConf();
 			EntityCleaner.scheduler.reInitTaskList();
-			replace.put("name", args.getString(0));
+			replace.put("name", taskName);
 			replace.put("list", "Time - " + time);
 			sender.sendMessage(Utils.I18n("TaskChange", replace));
 		} else if (args.hasFlag('i')) {
 			// Set the initial waiting time of the task
-			long time = (long) (args.getDouble(1)*20*60);
-			ECConfig.getConfig().set(args.getString(0) + ".inittime", time);
-			TaskContainer container = Scheduler.tasks.get(args.getString(0));
+			long time;
+			if (noWorld)
+				time = (long) (args.getDouble(1)*20*60);
+			else
+				time = (long) (args.getDouble(2)*20*60);
+			ECConfig.getConfig().set(taskName + ".inittime", time/(20*60));
+			TaskContainer container = Scheduler.tasks.get(taskName);
 			container.setInitTime(time);
+			Scheduler.tasks.put(taskName, container);
 			EntityCleaner.reloadConf();
 			EntityCleaner.scheduler.reInitTaskList();
-			replace.put("name", args.getString(0));
+			replace.put("name", taskName);
 			replace.put("list", "Initial waiting Time - " + time);
 			sender.sendMessage(Utils.I18n("TaskChange", replace));
 		} else if (args.hasFlag('o')) {
 			// Turn a task on/off
-			boolean on = Boolean.parseBoolean(args.getString(1));
-			ECConfig.getConfig().set(args.getString(0) + ".enable", on);
-			TaskContainer container = Scheduler.tasks.get(args.getString(0));
+			boolean on;
+			if (noWorld)
+				on = Boolean.parseBoolean(args.getString(1));
+			else
+				on = Boolean.parseBoolean(args.getString(2));
+			ECConfig.getConfig().set(taskName + ".enable", on);
+			TaskContainer container = Scheduler.tasks.get(taskName);
 			container.setEnabled(on);
+			Scheduler.tasks.put(taskName, container);
 			EntityCleaner.reloadConf();
 			EntityCleaner.scheduler.reInitTaskList();
-			replace.put("name", args.getString(0));
+			replace.put("name", taskName);
 			replace.put("list", "Enable - " + on);
 			sender.sendMessage(Utils.I18n("TaskChange", replace));
 		} else if (args.hasFlag('r')) {
 			// Restart a task
-			EntityCleaner.scheduler.restartTask(args.getString(0));
-			replace.put("name", args.getString(0));
+			EntityCleaner.scheduler.restartTask(taskName);
+			replace.put("name", taskName);
 			sender.sendMessage(Utils.I18n("TaskRestart", replace));
 		} else if (args.hasFlag('a')) {
 			// Set all values of a task (excluding the check value)
-			long time = (long) (args.getDouble(1)*20*60);
-			long initTime = (long) (args.getDouble(2)*20*60);
-			boolean on = Boolean.parseBoolean(args.getString(3));
-			String task = args.getString(0);
-			ECConfig.getConfig().set(task + ".enable", on);
-			ECConfig.getConfig().set(task + ".time", time);
-			ECConfig.getConfig().set(task + ".inittime", initTime);
-			TaskContainer container = Scheduler.tasks.get(args.getString(0));
+			long initTime; 
+			boolean on;
+			long time;
+			if (noWorld) {
+				time = (long) (args.getDouble(1)*20*60);
+				initTime = (long) (args.getDouble(2)*20*60);
+				on = Boolean.parseBoolean(args.getString(3));
+			} else {
+				time = (long) (args.getDouble(2)*20*60);
+				initTime = (long) (args.getDouble(3)*20*60);
+				on = Boolean.parseBoolean(args.getString(4));
+			}
+			ECConfig.getConfig().set(taskName + ".enable", on);
+			ECConfig.getConfig().set(taskName + ".time", time);
+			ECConfig.getConfig().set(taskName + ".inittime", initTime);
+			TaskContainer container = Scheduler.tasks.get(taskName);
 			container.setEnabled(on);
 			container.setTime(time);
 			container.setInitTime(initTime);
+			Scheduler.tasks.put(taskName, container);
 			EntityCleaner.reloadConf();
 			EntityCleaner.scheduler.reInitTaskList();
-			replace.put("name", args.getString(0));
+			replace.put("name", taskName);
 			String list = "Enable - " + on + "//n" + "Initial waiting Time - " + initTime + "//n"
 					+ "Time - " + time;
 			replace.put("list", list);
 			sender.sendMessage(Utils.I18n("TaskChange", replace));
 		} else if (args.hasFlag('c')) {
 			// Check values of a task.
-			String task = args.getString(0);
-			TaskContainer container = Scheduler.tasks.get(task);
+			TaskContainer container = Scheduler.tasks.get(taskName);
 			if (Utils.isPlayer(sender, false)) {
 				ChatColor col1 = ChatColor.AQUA;
 				ChatColor col2 = ChatColor.GOLD;
-				sender.sendMessage(col2 + task);
+				sender.sendMessage(col2 + taskName + ":");
 				sender.sendMessage(col1 + "Enabled: " + col2 + container.isEnabled());
 				sender.sendMessage(col1 + "Initial Start Time: " + col2 + container.getInitTIme());
 				sender.sendMessage(col1 + "Waiting Time: " + col2 + container.getTime());
-				if (task.equalsIgnoreCase("cart") || task.equalsIgnoreCase("boat") || task.equalsIgnoreCase("vehicle")
-						|| task.equalsIgnoreCase("all")) {
+				if (taskName.contains("cart") || taskName.contains("boat") || taskName.contains("vehicle")) {
 					sender.sendMessage(col1 + "Protected: " + col2 + container.isProtected());
+					sender.sendMessage(col1 + "Passenger: " + col2 + container.isPassanger());
 				}
 			} else {
-				sender.sendMessage(task);
+				sender.sendMessage(taskName + ":");
 				sender.sendMessage("Enabled: " + container.isEnabled());
 				sender.sendMessage("Initial Start Time: " + container.getInitTIme());
 				sender.sendMessage("Waiting Time: " + container.getTime());
-				if (task.equalsIgnoreCase("cart") || task.equalsIgnoreCase("boat") || task.equalsIgnoreCase("vehicle")
-						|| task.equalsIgnoreCase("all")) {
+				if (taskName.contains("cart") || taskName.contains("boat") || taskName.contains("vehicle")) {
 					sender.sendMessage("Protected: " + container.isProtected());
+					sender.sendMessage("Passenger: " + container.isPassanger());
 				}
 			}
 		} else if (args.hasFlag('p')) {
-			String task = args.getString(0);
-			if (task.equalsIgnoreCase("cart") || task.equalsIgnoreCase("boat") || task.equalsIgnoreCase("vehicle")
-					|| task.equalsIgnoreCase("all")) {
-				boolean on = Boolean.parseBoolean(args.getString(1));
-				ECConfig.getConfig().set(args.getString(0) + ".protect", on);
-				TaskContainer container = Scheduler.tasks.get(args.getString(0));
+			if (taskName.contains("cart") || taskName.contains("boat") || taskName.contains("vehicle")) {
+				boolean on;
+				if (noWorld)
+					on = Boolean.parseBoolean(args.getString(1));
+				else
+					on = Boolean.parseBoolean(args.getString(2));
+				ECConfig.getConfig().set(taskName + ".protect", on);
+				TaskContainer container = Scheduler.tasks.get(taskName);
 				container.setProtected(on);
+				Scheduler.tasks.put(taskName, container);
 				EntityCleaner.reloadConf();
 				EntityCleaner.scheduler.reInitTaskList();
-				replace.put("name", task);
+				replace.put("name", taskName);
 				replace.put("list", "Protected - " + on);
 				sender.sendMessage(Utils.I18n("TaskChange", replace));
+			} else {
+				if (Utils.isPlayer(sender, false)) {
+					sender.sendMessage(ChatColor.RED + "Given task is not among the list of taks which have a portect value!");
+				} else
+					sender.sendMessage("Given task is not among the list of taks which have a portect value!");
+			}
+		} else if (args.hasFlag('e')) {
+			if (taskName.contains("cart") || taskName.contains("boat") || taskName.contains("vehicle")) {
+				boolean on;
+				if (noWorld)
+					on = Boolean.parseBoolean(args.getString(1));
+				else
+					on = Boolean.parseBoolean(args.getString(2));
+				ECConfig.getConfig().set(taskName + ".protect", on);
+				TaskContainer container = Scheduler.tasks.get(taskName);
+				container.setPassanger(on);
+				Scheduler.tasks.put(taskName, container);
+				EntityCleaner.reloadConf();
+				EntityCleaner.scheduler.reInitTaskList();
+				replace.put("name", taskName);
+				replace.put("list", "Protected - " + on);
+				sender.sendMessage(Utils.I18n("TaskChange", replace));
+			} else {
+				if (Utils.isPlayer(sender, false)) {
+					sender.sendMessage(ChatColor.RED + "Given task is not among the list of taks which have a passenger value!");
+				} else
+					sender.sendMessage("Given task is not among the list of taks which have a passenger value!");
 			}
 		}
 	}

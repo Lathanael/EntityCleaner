@@ -30,9 +30,9 @@ import org.bukkit.entity.Monster;
  */
 public class MonsterTask implements Runnable {
 
-	private List<World> worlds;
-	public MonsterTask(List<World> worlds) {
-		this.worlds = worlds;
+	private World world;
+	public MonsterTask(World world) {
+		this.world = world;
 	}
 
 	/* (non-Javadoc)
@@ -41,14 +41,11 @@ public class MonsterTask implements Runnable {
 	@Override
 	public void run() {
 		List<Entity> entites;
-		for (World world : worlds) {
-			 entites = world.getEntities();
-			 for (Entity e : entites) {
-				 if (e instanceof Monster) {
-					 e.remove();
-				 }
-			 }
+		entites = world.getEntities();
+		for (Entity e : entites) {
+			if (e instanceof Monster) {
+				e.remove();
+			}
 		}
 	}
-
 }

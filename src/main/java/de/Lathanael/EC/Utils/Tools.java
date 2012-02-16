@@ -52,14 +52,10 @@ public class Tools {
 		Rails rails = null;
 		if (b.getState().getData() instanceof Rails) {
 			rails = (Rails) b.getState().getData();
-			if (EntityCleaner.debug)
-				debugMsg("Cart is railed!");
 		} else {
 			b = b.getRelative(BlockFace.DOWN);
 			if (b.getState().getData() instanceof Rails) {
 				rails = (Rails) b.getState().getData();
-				if (EntityCleaner.debug)
-					debugMsg("Cart is railed!");
 			}
 		}
 		return rails;
@@ -84,6 +80,7 @@ public class Tools {
 	 * @param message - The message to be displayed
 	 */
 	public static void debugMsg(String message) {
-		ACPluginManager.getPluginInstance("EntityCleaner").getLogger().info(message);
+		if (EntityCleaner.debug)
+			ACPluginManager.getPluginInstance("EntityCleaner").getLogger().info(message);
 	}
 }

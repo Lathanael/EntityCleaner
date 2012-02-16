@@ -47,6 +47,7 @@ public class EntityCleaner extends AbstractAdminCmdPlugin{
 	public static boolean debug;
 	public static Scheduler scheduler;
 	public static ExtendedConfiguration conf;
+	public static File configFolder;
 
 	@Override
 	public void onDisable() {
@@ -59,6 +60,7 @@ public class EntityCleaner extends AbstractAdminCmdPlugin{
 		final PluginDescriptionFile pdfFile = this.getDescription();
 		getLogger().info("Plugin Enabled. (version " + pdfFile.getVersion() + ")");
 		ECConfig.setPluginInfos(pdfFile);
+		configFolder = getDataFolder();
 		conf = ExtendedConfiguration.loadConfiguration(new File(
 		getDataFolder(), "config.yml"));
 		conf.addDefaults(ECConfig.getDefaultvalues());
@@ -70,7 +72,7 @@ public class EntityCleaner extends AbstractAdminCmdPlugin{
 			getLogger().log(Level.SEVERE, "Configuration saving problem", e1);
 		}
 		ECConfig.setConfig(conf);
-		debug = ECConfig.DEBUG.getBoolean();
+		debug = ECConfig.getBoolean("debugMsg");
 		permissionLinker.registerAllPermParent();
 		Metrics metrics;
 		try {
@@ -113,6 +115,8 @@ public class EntityCleaner extends AbstractAdminCmdPlugin{
 		} catch (IOException e1) {
 			ACPluginManager.getPluginInstance("EntityCleaner").getLogger().log(Level.SEVERE, "Configuration saving problem", e1);
 		}
+		conf = ExtendedConfiguration.loadConfiguration(new File(
+				configFolder, "config.yml"));
 		ECConfig.setConfig(conf);
 	}
 

@@ -33,9 +33,9 @@ import de.Lathanael.EC.Utils.Tools;
  */
 public class CartTask implements Runnable {
 
-	private List<World> worlds;
-	public CartTask(List<World> worlds) {
-		this.worlds = worlds;
+	private World world;
+	public CartTask(World world) {
+		this.world = world;
 	}
 
 	/* (non-Javadoc)
@@ -43,18 +43,31 @@ public class CartTask implements Runnable {
 	 */
 	@Override
 	public void run() {
+		boolean protect = ECConfig.getBoolean(world.getName() + ".cart.protect");
+		boolean passenger = ECConfig.getBoolean(world.getName() + ".cart.passenger");
 		List<Entity> entites;
-		for (World world : worlds) {
-			 entites = world.getEntities();
-			 for (Entity e : entites) {
-				 if (e instanceof Minecart) {
-					Minecart cart = (Minecart) e;
-					if (ECConfig.C_DERAILED.getBoolean() && Tools.isDerailed(cart)) {
+		entites = world.getEntities();
+		for (Entity e : entites) {
+			if (e instanceof Minecart) {
+				Minecart cart = (Minecart) e;
+				Entity ep = cart.getPassenger();
+				if (protect && Tools.isDerailed(cart)) {
+					if (!passenger) {
 						cart.remove();
-					} else if (!ECConfig.C_DERAILED.getBoolean())
+					} else if (ep == null) {
 						cart.remove();
-				 }
-			 }
+					}
+				}
+				else if (passenger) {
+					if (!protect) {
+						if (ep == null)
+							cart.remove();	
+					} else if (protect && ep == null && Tools.isDerailed(cart))
+						cart.remove();
+				} else {
+					cart.remove();
+				}
+			}
 		}
 	}
 }

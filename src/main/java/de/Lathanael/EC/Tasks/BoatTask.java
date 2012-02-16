@@ -33,29 +33,37 @@ import de.Lathanael.EC.Utils.Tools;
  */
 public class BoatTask implements Runnable {
 
-	private List<World> worlds;
-	public BoatTask(List<World> worlds) {
-		this.worlds = worlds;
+	private World world;
+	public BoatTask(World world) {
+		this.world = world;
 	}
 	/* (non-Javadoc)
 	 * @see java.lang.Runnable#run()
 	 */
 	@Override
 	public void run() {
+		boolean protect = ECConfig.getBoolean(world.getName() + ".boat.protect");
+		boolean passenger = ECConfig.getBoolean(world.getName() + ".boat.passenger");
 		List<Entity> entites;
-		for (World world : worlds) {
-			 entites = world.getEntities();
-			 for (Entity e : entites) {
-				 if (e instanceof Boat) {
-					 Boat boat = (Boat) e;
-					 if (ECConfig.B_WATER.getBoolean() && !Tools.isBoatInWater(boat))
-						 boat.remove();
-					 else if (!ECConfig.B_WATER.getBoolean())
-						 boat.remove();
-				 }
-			 }
+		entites = world.getEntities();
+		for (Entity e : entites) {
+			if (e instanceof Boat) {
+				Boat boat = (Boat) e;
+				Entity ep = boat.getPassenger();
+				if (protect && !Tools.isBoatInWater(boat)) {
+					if (!passenger)
+						boat.remove();
+					else if (ep == null)
+						boat.remove();
+				} else if (passenger) {
+					if (!protect) {
+						if (ep == null)
+							boat.remove();
+					} else if (ep == null && protect && !Tools.isBoatInWater(boat))
+						boat.remove();
+				} else
+					boat.remove();
+			}
 		}
-
 	}
-
 }
