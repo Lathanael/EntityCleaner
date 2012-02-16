@@ -55,6 +55,9 @@ public class Purge extends CoreCommand {
 				world = ((Player) sender).getWorld().getName();
 				noWorld = false;
 			}
+		} else if (args.length <= 2 && !args.hasFlag('c')) {
+			sender.sendMessage("Invalid amount of arguments!");
+			return;
 		} else
 			world = args.getString(0);
 		String taskName;
@@ -128,7 +131,7 @@ public class Purge extends CoreCommand {
 			sender.sendMessage(Utils.I18n("TaskRestart", replace));
 		} else if (args.hasFlag('a')) {
 			// Set all values of a task (excluding the check value)
-			long initTime; 
+			long initTime;
 			boolean on;
 			long time;
 			if (noWorld) {
