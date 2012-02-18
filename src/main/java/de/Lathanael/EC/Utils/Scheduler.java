@@ -61,7 +61,6 @@ public class Scheduler {
 		list.remove("debugMsg");
 		Tools.debugMsg("Loading worlds...");
 		for (String world : list) {
-			Tools.debugMsg(world);
 			if (EntityCleaner.debug)
 				Tools.debugMsg("Adding world: " + server.getWorld(world).getName());
 			worlds.add(server.getWorld(world));
