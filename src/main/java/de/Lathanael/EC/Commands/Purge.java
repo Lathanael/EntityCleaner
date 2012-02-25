@@ -40,7 +40,7 @@ import be.Balor.Tools.Utils;
 public class Purge extends CoreCommand {
 
 	public Purge() {
-		super("ec_purge", "admincmd.entitycleaner.purge", "EntityCleaner");
+		super("ec_purge", "entitycleaner.purge", "EntityCleaner");
 	}
 
 	@Override
