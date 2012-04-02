@@ -29,6 +29,8 @@ import org.bukkit.Server;
 import org.bukkit.World;
 import be.Balor.Tools.MaterialContainer;
 import be.Balor.Tools.Utils;
+import be.Balor.Tools.Debug.ACLogger;
+import be.Balor.Tools.Exceptions.InvalidInputException;
 import de.Lathanael.EC.Main.EntityCleaner;
 import de.Lathanael.EC.Tasks.AnimalTask;
 import de.Lathanael.EC.Tasks.ArrowTask;
@@ -67,10 +69,20 @@ public class Scheduler {
 			List<Material> item = new ArrayList<Material>();
 			List<String> itemName = ECConfig.getStringList(world + ".item.list");
 			for(String s : itemName) {
-				MaterialContainer m = Utils.checkMaterial(s);
-					Material mat = m.getMaterial();
-					if (mat != null)
-						item.add(mat);
+				MaterialContainer m = null;
+				try {
+					m = Utils.checkMaterial(s);
+				} catch (InvalidInputException e) {
+					final HashMap<String, String> replace = new HashMap<String, String>();
+					replace.put("material", s);
+					ACLogger.Log(Utils.I18n("unknownMat", replace));
+				}
+				if (m.isNull()) {
+					continue;
+				}
+				Material mat = m.getMaterial();
+				if (mat != null)
+					item.add(mat);
 			}
 			items.put(world, item);
 		}
