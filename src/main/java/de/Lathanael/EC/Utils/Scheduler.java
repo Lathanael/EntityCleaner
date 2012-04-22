@@ -140,6 +140,10 @@ public class Scheduler {
 
 	private void initTaskList() {
 		for (World world : worlds) {
+			if (world == null) {
+				Tools.debugMsg("World was null, contueing loop for other worlds if there are any in the list....");
+				continue;
+			}
 			String name = world.getName();
 			tasks.put(name + ".cart", new TaskContainer((Runnable) new CartTask(world), (long) (ECConfig.getDouble(name + ".cart.inittime", 0.5D)*20*60),
 					(long) (ECConfig.getDouble(name + ".cart.time", 5D)*20*60), ECConfig.getBoolean(name + ".cart.enable"),
