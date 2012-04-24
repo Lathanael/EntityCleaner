@@ -93,8 +93,6 @@ public class EntityCleaner extends AbstractAdminCmdPlugin{
 	protected void registerPermParents() {
 		PermParent major = new PermParent("entityCleaner.*");
 		permissionLinker.setMajorPerm(major);
-		major.addChild("entityCleaner.purge");
-
 	}
 
 	@Override
