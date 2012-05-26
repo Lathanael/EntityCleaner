@@ -27,7 +27,6 @@ import org.bukkit.plugin.PluginDescriptionFile;
 
 import be.Balor.Manager.CommandManager;
 import be.Balor.Manager.Permissions.PermParent;
-import be.Balor.Tools.Metrics;
 import be.Balor.Tools.Utils;
 import be.Balor.Tools.Configuration.File.ExtendedConfiguration;
 import be.Balor.bukkit.AdminCmd.ACPluginManager;
@@ -74,14 +73,6 @@ public class EntityCleaner extends AbstractAdminCmdPlugin{
 		ECConfig.setConfig(conf);
 		debug = ECConfig.getBoolean("debugMsg");
 		permissionLinker.registerAllPermParent();
-		Metrics metrics;
-		try {
-			metrics = new Metrics();
-			metrics.beginMeasuringPlugin(this);
-		} catch (IOException e) {
-		}
-		scheduler = new Scheduler(getServer(), this);
-		scheduler.startTasks();
 	}
 
 	@Override
