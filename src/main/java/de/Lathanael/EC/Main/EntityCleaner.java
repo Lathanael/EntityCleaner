@@ -26,8 +26,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.plugin.PluginDescriptionFile;
 
 import be.Balor.Manager.CommandManager;
+import be.Balor.Manager.LocaleManager;
 import be.Balor.Manager.Permissions.PermParent;
-import be.Balor.Tools.Utils;
 import be.Balor.Tools.Configuration.File.ExtendedConfiguration;
 import be.Balor.bukkit.AdminCmd.ACPluginManager;
 import be.Balor.bukkit.AdminCmd.AbstractAdminCmdPlugin;
@@ -91,11 +91,11 @@ public class EntityCleaner extends AbstractAdminCmdPlugin{
 		ChatColor col1 = ChatColor.GOLD;
 		ChatColor col2 = ChatColor.AQUA;
 		ChatColor col3 = ChatColor.DARK_GREEN;
-		Utils.addLocale("TaskChange", col2 + "Task " + col1 + "%name " + col2 + "has been modified with the following variable(s)://n"
+		LocaleManager.getInstance().addLocale("TaskChange", col2 + "Task " + col1 + "%name " + col2 + "has been modified with the following variable(s)://n"
 				+ col3 + "%list");
-		Utils.addLocale("TaskStop", col2 + "Task " + col1 + "%name " + col2 + "has been stopped!");
-		Utils.addLocale("TaskStart", col2 + "Task " + col1 + "%name " + col2 + "has been started!");
-		Utils.addLocale("TaskRestart", col2 + "Task " + col1 + "%name " + col2 + "has been restarted!");
+		LocaleManager.getInstance().addLocale("TaskStop", col2 + "Task " + col1 + "%name " + col2 + "has been stopped!");
+		LocaleManager.getInstance().addLocale("TaskStart", col2 + "Task " + col1 + "%name " + col2 + "has been started!");
+		LocaleManager.getInstance().addLocale("TaskRestart", col2 + "Task " + col1 + "%name " + col2 + "has been restarted!");
 	}
 
 	public static void reloadConf() {

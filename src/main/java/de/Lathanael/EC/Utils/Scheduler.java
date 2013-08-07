@@ -27,10 +27,13 @@ import java.util.Set;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.World;
+
+import be.Balor.Manager.LocaleManager;
 import be.Balor.Tools.MaterialContainer;
-import be.Balor.Tools.Utils;
+import be.Balor.Tools.CommandUtils.Materials;
 import be.Balor.Tools.Debug.ACLogger;
 import be.Balor.Tools.Exceptions.InvalidInputException;
+
 import de.Lathanael.EC.Main.EntityCleaner;
 import de.Lathanael.EC.Tasks.AnimalTask;
 import de.Lathanael.EC.Tasks.ArrowTask;
@@ -71,11 +74,11 @@ public class Scheduler {
 			for(String s : itemName) {
 				MaterialContainer m = null;
 				try {
-					m = Utils.checkMaterial(s);
+					m = Materials.checkMaterial(s);
 				} catch (InvalidInputException e) {
 					final HashMap<String, String> replace = new HashMap<String, String>();
 					replace.put("material", s);
-					ACLogger.Log(Utils.I18n("unknownMat", replace));
+					ACLogger.Log(LocaleManager.I18n("unknownMat", replace));
 				}
 				if (m.isNull()) {
 					continue;

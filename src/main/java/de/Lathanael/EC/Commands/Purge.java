@@ -29,9 +29,10 @@ import de.Lathanael.EC.Utils.ECConfig;
 import de.Lathanael.EC.Utils.Scheduler;
 import de.Lathanael.EC.Utils.TaskContainer;
 
+import be.Balor.Manager.LocaleManager;
 import be.Balor.Manager.Commands.CommandArgs;
 import be.Balor.Manager.Commands.CoreCommand;
-import be.Balor.Tools.Utils;
+import be.Balor.Tools.CommandUtils.Users;
 
 /**
  * @author Lathanael (aka Philippe Leipold)
@@ -48,7 +49,7 @@ public class Purge extends CoreCommand {
 		HashMap<String, String> replace = new HashMap<String, String>();
 		String world = "";
 		boolean noWorld = true;
-		if (Utils.isPlayer(sender, false)) {
+		if (Users.isPlayer(sender, false)) {
 			if (args.length > 2)
 				world = args.getString(0);
 			else {
@@ -70,11 +71,11 @@ public class Purge extends CoreCommand {
 			if (Scheduler.taskIDs.containsKey(taskName)) {
 				EntityCleaner.scheduler.stopTask(taskName);
 				replace.put("name", taskName);
-				sender.sendMessage(Utils.I18n("TaskStop", replace));
+				sender.sendMessage(LocaleManager.I18n("TaskStop", replace));
 			} else {
 				EntityCleaner.scheduler.startTask(taskName);
 				replace.put("name", taskName);
-				sender.sendMessage(Utils.I18n("TaskStart", replace));
+				sender.sendMessage(LocaleManager.I18n("TaskStart", replace));
 			}
 		} else if (args.hasFlag('t')) {
 			// Set time between two executions of the task
@@ -91,7 +92,7 @@ public class Purge extends CoreCommand {
 			EntityCleaner.scheduler.reInitTaskList();
 			replace.put("name", taskName);
 			replace.put("list", "Time - " + time);
-			sender.sendMessage(Utils.I18n("TaskChange", replace));
+			sender.sendMessage(LocaleManager.I18n("TaskChange", replace));
 		} else if (args.hasFlag('i')) {
 			// Set the initial waiting time of the task
 			long time;
@@ -107,7 +108,7 @@ public class Purge extends CoreCommand {
 			EntityCleaner.scheduler.reInitTaskList();
 			replace.put("name", taskName);
 			replace.put("list", "Initial waiting Time - " + time);
-			sender.sendMessage(Utils.I18n("TaskChange", replace));
+			sender.sendMessage(LocaleManager.I18n("TaskChange", replace));
 		} else if (args.hasFlag('o')) {
 			// Turn a task on/off
 			boolean on;
@@ -123,12 +124,12 @@ public class Purge extends CoreCommand {
 			EntityCleaner.scheduler.reInitTaskList();
 			replace.put("name", taskName);
 			replace.put("list", "Enable - " + on);
-			sender.sendMessage(Utils.I18n("TaskChange", replace));
+			sender.sendMessage(LocaleManager.I18n("TaskChange", replace));
 		} else if (args.hasFlag('r')) {
 			// Restart a task
 			EntityCleaner.scheduler.restartTask(taskName);
 			replace.put("name", taskName);
-			sender.sendMessage(Utils.I18n("TaskRestart", replace));
+			sender.sendMessage(LocaleManager.I18n("TaskRestart", replace));
 		} else if (args.hasFlag('a')) {
 			// Set all values of a task (excluding the check value)
 			long initTime;
@@ -157,11 +158,11 @@ public class Purge extends CoreCommand {
 			String list = "Enable - " + on + "//n" + "Initial waiting Time - " + initTime + "//n"
 					+ "Time - " + time;
 			replace.put("list", list);
-			sender.sendMessage(Utils.I18n("TaskChange", replace));
+			sender.sendMessage(LocaleManager.I18n("TaskChange", replace));
 		} else if (args.hasFlag('c')) {
 			// Check values of a task.
 			TaskContainer container = Scheduler.tasks.get(taskName);
-			if (Utils.isPlayer(sender, false)) {
+			if (Users.isPlayer(sender, false)) {
 				ChatColor col1 = ChatColor.AQUA;
 				ChatColor col2 = ChatColor.GOLD;
 				sender.sendMessage(col2 + taskName + ":");
@@ -197,9 +198,9 @@ public class Purge extends CoreCommand {
 				EntityCleaner.scheduler.reInitTaskList();
 				replace.put("name", taskName);
 				replace.put("list", "Protected - " + on);
-				sender.sendMessage(Utils.I18n("TaskChange", replace));
+				sender.sendMessage(LocaleManager.I18n("TaskChange", replace));
 			} else {
-				if (Utils.isPlayer(sender, false)) {
+				if (Users.isPlayer(sender, false)) {
 					sender.sendMessage(ChatColor.RED + "Given task is not among the list of taks which have a portect value!");
 				} else
 					sender.sendMessage("Given task is not among the list of taks which have a portect value!");
@@ -219,9 +220,9 @@ public class Purge extends CoreCommand {
 				EntityCleaner.scheduler.reInitTaskList();
 				replace.put("name", taskName);
 				replace.put("list", "Protected - " + on);
-				sender.sendMessage(Utils.I18n("TaskChange", replace));
+				sender.sendMessage(LocaleManager.I18n("TaskChange", replace));
 			} else {
-				if (Utils.isPlayer(sender, false)) {
+				if (Users.isPlayer(sender, false)) {
 					sender.sendMessage(ChatColor.RED + "Given task is not among the list of taks which have a passenger value!");
 				} else
 					sender.sendMessage("Given task is not among the list of taks which have a passenger value!");
