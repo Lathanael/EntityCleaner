@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.Lathanael.EC</groupId>
 	<artifactId>EntityCleaner</artifactId>
-	<version>1.2-SNAPSHOT</version>
+	<version>1.2</version>
 	<name>EntityCleaner</name>
 	<scm>
 		<connection>scm:git:git@github.com:Lathanael/EntityCleaner.git</connection>
